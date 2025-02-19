@@ -12,25 +12,8 @@ namespace NeuralNet
     {
         static void Main(string[] args)
         {
-            // Define the XOR dataset.
-            double[][] inputs = new double[][]
-            {
-                new double[] { 0, 0 },
-                new double[] { 0, 1 },
-                new double[] { 1, 0 },
-                new double[] { 1, 1 }
-            };
-
-            double[][] outputs = new double[][]
-            {
-                new double[] { 0 },
-                new double[] { 1 },
-                new double[] { 1 },
-                new double[] { 0 }
-            };
-
             // Create the dataset.
-            NetworkData xorData = new NetworkData(inputs, outputs);
+            NetworkData xorData = NetworkData.XORData;
 
             // Create a network instance using the factory.
             NetworkInstance instance = NetworkFactory.CreateNetwork(2, 3, 1);
@@ -39,7 +22,8 @@ namespace NeuralNet
             NetworkRunner runner = new NetworkRunner(instance, xorData)
             {
                 // Enable verbose logging for expert-level details.
-                Verbose = true
+                Verbose = true,
+                VerboseModulus = 10
             };
 
             // Run training and testing.

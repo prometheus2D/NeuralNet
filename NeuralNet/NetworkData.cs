@@ -21,5 +21,24 @@ namespace NeuralNet
             Inputs = inputs;
             Outputs = outputs;
         }
+
+
+        //Static Data
+        public static NetworkData XORData { get; } = new NetworkData(
+            new double[][]
+            {
+                new double[] { 0, 0 },
+                new double[] { 0, 1 },
+                new double[] { 1, 0 },
+                new double[] { 1, 1 }
+            },
+            new double[][]
+            {
+                new double[] { 0 },
+                new double[] { 1 },
+                new double[] { 1 },
+                new double[] { 0 }
+            }
+        );
     }
 }

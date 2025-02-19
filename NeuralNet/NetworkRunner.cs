@@ -18,7 +18,7 @@ namespace NeuralNet
 
         // Global verbose flag for detailed logging.
         public bool Verbose { get; set; } = false;
-        public int VerboseModulus { get; set; } = 10;
+        public int VerboseModulus { get; set; } = 0;
 
         // Training parameters.
         public double LearningRate { get; set; } = 0.1;
@@ -52,16 +52,6 @@ namespace NeuralNet
             {
                 error = teacher.RunEpoch(Data.Inputs, Data.Outputs);
                 iteration++;
-
-                // Log a new best error if found.
-                if (error < bestError)
-                {
-                    bestError = error;
-                    if (Verbose)
-                    {
-                        Console.WriteLine($"New best error at iteration {iteration}: {bestError:F4}");
-                    }
-                }
 
                 // Log details based on the verbose flag.
                 if ((Verbose && (VerboseModulus <= 0 || iteration % VerboseModulus == 0)) || iteration % 1000 == 0)
