@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Accord.Neuro;
 using Accord.Neuro.Networks;
 
@@ -12,21 +8,18 @@ namespace NeuralNet
     {
         static void Main(string[] args)
         {
-            // Create the dataset.
-            NetworkData xorData = NetworkData.XORData;
+            // Create a network instance using the factory abstraction.
+            INetworkFactory factory = new AccordNetworkFactory();
+            INetworkInstance instance = factory.CreateNetwork(2, 2, 1);
 
-            // Create a network instance using the factory.
-            NetworkInstance instance = NetworkFactory.CreateNetwork(2, 3, 1);
+            // Create the runner with the instance and dataset.
+            NetworkRunner runner = new NetworkRunner(instance, NetworkData.XORData);
 
-            // Create the runner with the network instance and dataset.
-            NetworkRunner runner = new NetworkRunner(instance, xorData)
-            {
-                // Enable verbose logging for expert-level details.
-                Verbose = true,
-                VerboseModulus = 10
-            };
+            // Configure training parameters.
+            runner.Parameters.Verbose = true;
+            runner.Parameters.VerboseModulus = 10;
 
-            // Run training and testing.
+            // Run the training and testing, with all UI handled by the runner.
             runner.Run();
 
             Console.WriteLine("\nPress any key to exit...");
