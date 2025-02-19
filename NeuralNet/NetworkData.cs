@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace NeuralNet
 {
-    public class NeuralNetworkData
+    public class NetworkData
     {
         public double[][] Inputs { get; }
         public double[][] Outputs { get; }
 
-        public NeuralNetworkData(double[][] inputs, double[][] outputs)
+        public NetworkData(double[][] inputs, double[][] outputs)
         {
             if (inputs == null || outputs == null)
                 throw new ArgumentNullException("Inputs and Outputs cannot be null.");

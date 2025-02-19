@@ -1,12 +1,14 @@
-﻿using Accord.Neuro;
-using Accord.Neuro.Learning;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Accord.Neuro;
+using Accord.Neuro.Networks;
 
 namespace NeuralNet
 {
-    public class Program
+    class Program
     {
         static void Main(string[] args)
         {
@@ -28,21 +30,17 @@ namespace NeuralNet
             };
 
             // Create the dataset.
-            NeuralNetworkData xorData = new NeuralNetworkData(inputs, outputs);
+            NetworkData xorData = new NetworkData(inputs, outputs);
 
-            // Create a feedforward network with 2 inputs, 2 hidden neurons, and 1 output.
-            ActivationNetwork network = new ActivationNetwork(
-                new SigmoidFunction(), // Activation function.
-                2,                     // Number of inputs.
-                2,                     // Number of neurons in the hidden layer.
-                1);                    // Number of outputs.
+            // Create a network instance using the factory.
+            NetworkInstance instance = NetworkFactory.CreateNetwork(2, 3, 1);
 
-            // Initialize the network's weights using Nguyen-Widrow.
-            NguyenWidrow initializer = new NguyenWidrow(network);
-            initializer.Randomize();
-
-            // Create the runner by combining the network and dataset.
-            NeuralNetworkRunner runner = new NeuralNetworkRunner(network, xorData);
+            // Create the runner with the network instance and dataset.
+            NetworkRunner runner = new NetworkRunner(instance, xorData)
+            {
+                // Enable verbose logging for expert-level details.
+                Verbose = true
+            };
 
             // Run training and testing.
             runner.Run();
