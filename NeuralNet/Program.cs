@@ -1,6 +1,8 @@
 ﻿using System;
 using Accord.Neuro;
 using Accord.Neuro.Networks;
+using Encog.App.Quant.Loader.OpenQuant.Data;
+using Encog.Bot.Browse.Range;
 
 namespace NeuralNet
 {
@@ -8,19 +10,25 @@ namespace NeuralNet
     {
         static void Main(string[] args)
         {
-            // Create a network instance using the factory abstraction.
-            INetworkFactory factory = new AccordNetworkFactory();
-            INetworkInstance instance = factory.CreateNetwork(2, 2, 1);
+            NetworkData data = NetworkData.XORData;
 
-            // Create the runner with the instance and dataset.
-            NetworkRunner runner = new NetworkRunner(instance, NetworkData.XORData);
+            // ----- Create an Accord-based network runner -----
+            INetworkFactory accordFactory = new AccordNetworkFactory(); // Assume this exists from previous code.
+            INetworkInstance accordInstance = accordFactory.CreateNetwork(2, 2, 1);
+            NetworkRunner accordRunner = new NetworkRunner(accordInstance, data);
+            accordRunner.Parameters.Verbose = true;
+            accordRunner.Parameters.VerboseModulus = 100;
+            Console.WriteLine("Running Accord.NET network:");
+            accordRunner.Run();
 
-            // Configure training parameters.
-            runner.Parameters.Verbose = true;
-            runner.Parameters.VerboseModulus = 10;
-
-            // Run the training and testing, with all UI handled by the runner.
-            runner.Run();
+            // ----- Create an Encog-based network runner -----
+            INetworkFactory encogFactory = new EncogNetworkFactory();
+            INetworkInstance encogInstance = encogFactory.CreateNetwork(2, 2, 1);
+            NetworkRunner encogRunner = new NetworkRunner(encogInstance, data);
+            encogRunner.Parameters.Verbose = true;
+            encogRunner.Parameters.VerboseModulus = 100;
+            Console.WriteLine("\nRunning Encog network:");
+            encogRunner.Run();
 
             Console.WriteLine("\nPress any key to exit...");
             Console.ReadKey();

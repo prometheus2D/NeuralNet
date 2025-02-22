@@ -2,9 +2,6 @@
 
 namespace NeuralNet
 {
-    /// <summary>
-    /// Wraps the network instance and handles all UI (console output) by delegating progress and test result display.
-    /// </summary>
     public class NetworkRunner
     {
         public INetworkInstance Instance { get; }
