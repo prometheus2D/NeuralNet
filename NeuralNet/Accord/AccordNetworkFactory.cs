@@ -17,7 +17,7 @@ namespace NeuralNet
             NguyenWidrow initializer = new NguyenWidrow(network);
             initializer.Randomize();
 
-            return new AccordNetworkInstance(network);
+            return new AccordBPInstance(network);
         }
     }
 }

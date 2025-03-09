@@ -22,6 +22,23 @@ namespace NeuralNet
             Outputs = outputs;
         }
 
+        public NetworkData(string filePath)
+        {
+            filePath = @"D:\Data\mnist_train.csv";
+
+            var lines = File.ReadAllLines(filePath);
+            var headers = lines[0];
+
+            for (int i = 1; i < lines.Length; i++)
+            {
+
+            }
+
+
+
+
+        }
+
 
         //Static Data
         public static NetworkData XORData { get; } = new NetworkData(
@@ -40,5 +57,7 @@ namespace NeuralNet
                 new double[] { 0 }
             }
         );
+
+        public static NetworkData MNISTData { get; } = new NetworkData("");
     }
 }

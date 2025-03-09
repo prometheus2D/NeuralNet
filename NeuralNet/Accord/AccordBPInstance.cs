@@ -1,22 +1,24 @@
 ﻿using System;
 using Accord.Neuro;
 using Accord.Neuro.Learning;
+using NeuralNet.Network;
 
 namespace NeuralNet
 {
     /// <summary>
     /// A concrete network instance using the Accord.NET library.
     /// </summary>
-    public class AccordNetworkInstance : INetworkInstance
+    public class AccordBPInstance : AbstractNetworkInstance
     {
         public ActivationNetwork Network { get; private set; }
 
-        public AccordNetworkInstance(ActivationNetwork network)
+        public AccordBPInstance(ActivationNetwork network)
+            : base()
         {
             Network = network ?? throw new ArgumentNullException(nameof(network));
         }
 
-        public TrainingResult Run(NetworkData data, TrainingParameters parameters, Action<TrainingProgress> progressCallback)
+        public override TrainingResult Train(NetworkData data, TrainingParameters parameters, Action<TrainingProgress> progressCallback)
         {
             if (data == null) throw new ArgumentNullException(nameof(data));
             if (parameters == null) throw new ArgumentNullException(nameof(parameters));
@@ -49,7 +51,7 @@ namespace NeuralNet
             };
         }
 
-        public double[][] Test(NetworkData data)
+        public override double[][] Test(NetworkData data)
         {
             double[][] results = new double[data.Inputs.Length][];
             for (int i = 0; i < data.Inputs.Length; i++)

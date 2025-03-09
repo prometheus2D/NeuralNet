@@ -13,19 +13,19 @@ namespace NeuralNet
             NetworkData data = NetworkData.XORData;
 
             // ----- Create an Accord-based network runner -----
-            INetworkFactory accordFactory = new AccordNetworkFactory(); // Assume this exists from previous code.
-            INetworkInstance accordInstance = accordFactory.CreateNetwork(2, 3, 1);
-            NetworkInstanceRunner accordRunner = new NetworkInstanceRunner(accordInstance, data, 
-                line => Console.WriteLine(line),
-                () => { });
+            var factory = new AccordNetworkFactory();
+            INetworkInstance accordInstance = factory.CreateNetwork(2, 3, 1);
+            NetworkInstanceRunner accordRunner = new NetworkInstanceRunner(accordInstance, data, null,
+                line => Console.WriteLine(line)//,
+                //() => { }
+                );
             accordRunner.Parameters.Verbose = true;
             accordRunner.Parameters.VerboseModulus = 100;
             Console.WriteLine("Running Accord.NET network:");
             accordRunner.Run();
 
             //// ----- Create an Encog-based network runner -----
-            //INetworkFactory encogFactory = new EncogNetworkFactory();
-            //INetworkInstance encogInstance = encogFactory.CreateNetwork(2, 3, 1);
+            //INetworkInstance encogInstance = EncogBPInstance.CreateNetwork(2, 3, 1);
             //NetworkInstanceRunner encogRunner = new NetworkInstanceRunner(encogInstance, data);
             //encogRunner.Parameters.Verbose = true;
             //encogRunner.Parameters.VerboseModulus = 100;

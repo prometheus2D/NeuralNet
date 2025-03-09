@@ -6,19 +6,20 @@ namespace NeuralNet
     {
         public INetworkInstance Instance { get; }
         public NetworkData Data { get; }
-        public TrainingParameters Parameters { get; set; } = new TrainingParameters();
+        public TrainingParameters Parameters { get; set; }
 
-        public NetworkInstanceRunner(INetworkInstance instance, NetworkData data, 
-            LogEventHandler logEvent, TrainIterationEventHandler trainEvent)
+        public NetworkInstanceRunner(INetworkInstance instance, NetworkData data, TrainingParameters parameters,
+            LogEventHandler logEvent = null, TrainIterationEventHandler trainEvent = null)
         {
             Instance = instance ?? throw new ArgumentNullException(nameof(instance));
             Data = data ?? throw new ArgumentNullException(nameof(data));
+            Parameters = parameters ?? new TrainingParameters();
 
             LogEvent += logEvent;
             TrainIterationEvent += trainEvent;
         }
 
-        public delegate void TrainIterationEventHandler();
+        public delegate void TrainIterationEventHandler(int index, double value);
         public event TrainIterationEventHandler TrainIterationEvent;
 
         public delegate void LogEventHandler(string line);
@@ -27,7 +28,7 @@ namespace NeuralNet
         public void Run()
         {
             // Provide a callback that handles when to log, based solely on runner settings.
-            TrainingResult result = Instance.Run(Data, Parameters, progress =>
+            TrainingResult result = Instance.Train(Data, Parameters, progress =>
             {
                 // Decide to log based on runner-controlled verbosity.
                 if ((Parameters.Verbose && (Parameters.VerboseModulus <= 0 || progress.Iteration % Parameters.VerboseModulus == 0))
@@ -36,6 +37,7 @@ namespace NeuralNet
                     //Console.WriteLine($"Iteration: {progress.Iteration}, Current error: {progress.Error:F4}");
                     LogEvent?.Invoke($"Iteration: {progress.Iteration}, Current error: {progress.Error:F4}");
                 }
+                TrainIterationEvent?.Invoke(progress.Iteration, progress.Error);
             });
 
             // Final training summary is logged by the runner.

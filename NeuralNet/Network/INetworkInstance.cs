@@ -4,7 +4,9 @@ namespace NeuralNet
 {
     public interface INetworkInstance
     {
-        TrainingResult Run(NetworkData data, TrainingParameters parameters, Action<TrainingProgress> progressCallback);
+        public Guid Guid { get; set; }
+
+        TrainingResult Train(NetworkData data, TrainingParameters parameters, Action<TrainingProgress> progressCallback);
 
         double[][] Test(NetworkData data);
     }

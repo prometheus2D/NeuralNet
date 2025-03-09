@@ -6,19 +6,21 @@ using Encog.Neural.Networks;
 using Encog.Neural.Networks.Layers;
 using Encog.Engine.Network.Activation;
 using Encog.Neural.Networks.Training.Propagation.Back;
+using NeuralNet.Network;
 
 namespace NeuralNet
 {
-    public class EncogNetworkInstance : INetworkInstance
+    public class EncogBPInstance : AbstractNetworkInstance
     {
         public BasicNetwork Network { get; private set; }
 
-        public EncogNetworkInstance(BasicNetwork network)
+        public EncogBPInstance(BasicNetwork network)
+            : base()
         {
             Network = network ?? throw new ArgumentNullException(nameof(network));
         }
 
-        public TrainingResult Run(NetworkData data, TrainingParameters parameters, Action<TrainingProgress> progressCallback)
+        public override TrainingResult Train(NetworkData data, TrainingParameters parameters, Action<TrainingProgress> progressCallback)
         {
             if (data == null) throw new ArgumentNullException(nameof(data));
             if (parameters == null) throw new ArgumentNullException(nameof(parameters));
@@ -52,7 +54,7 @@ namespace NeuralNet
             };
         }
 
-        public double[][] Test(NetworkData data)
+        public override double[][] Test(NetworkData data)
         {
             double[][] results = new double[data.Inputs.Length][];
             for (int i = 0; i < data.Inputs.Length; i++)

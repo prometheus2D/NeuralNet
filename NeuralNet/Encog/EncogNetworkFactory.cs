@@ -17,7 +17,7 @@ namespace NeuralNet
             network.Structure.FinalizeStructure();
             network.Reset();
 
-            return new EncogNetworkInstance(network);
+            return new EncogBPInstance(network);
         }
     }
 }
