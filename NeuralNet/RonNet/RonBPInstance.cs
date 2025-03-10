@@ -105,6 +105,10 @@ namespace NeuralNet
             NeuronOutputs = new float[Neurons.Length];
             NeuronErrors = new float[Neurons.Length];
 
+            var random = new Random();
+            for (int i = 0; i < Synapses.Length; i++)
+                Synapses[i].Weight = (float)(random.NextDouble() * 2f) - 1f;
+
             int SynapseTotal(int[] _layers)
             {
                 var result = 0;
@@ -112,32 +116,6 @@ namespace NeuralNet
                     result += _layers[i - 1] * layers[i];
                 return result;
             }
-        }
-
-        //Actions
-        public void TrainOnCases(float[][][] cases, float learningRate)
-        {
-            foreach (var singleCase in cases)
-                TrainOnCase(singleCase, learningRate);
-        }
-        public void TrainOnCase(float[][] singleCase, float learningRate)
-        {
-            Iterate(singleCase[0]);
-            CalculateOutputErrors(singleCase[1]);
-            BackPropagate(learningRate);
-        }
-        public float TestOnCases(float[][][] cases)
-        {
-            var sum = 0f;
-            foreach (var singleCase in cases)
-                sum += TestOnCase(singleCase);
-            return sum;
-        }
-        public float TestOnCase(float[][] singleCase)
-        {
-            Iterate(singleCase[0]);
-            CalculateOutputErrors(singleCase[1]);
-            return OutputErrors.Sum();
         }
 
         //Operations
@@ -229,6 +207,7 @@ namespace NeuralNet
                 }
 
                 //Apply Changes to synapses
+                learningRate *= 5f;
                 for (int synIndex = synapseStartIndex; synIndex < synapseStartIndex + NeuronLayerStructure[layer] * NeuronLayerStructure[layer + 1]; synIndex++)
                 {
                     Synapses[synIndex].Weight += learningRate * NeuronOutputs[Synapses[synIndex].InputNeuronID] * NeuronErrors[Synapses[synIndex].OutputNeuronID];
@@ -250,13 +229,51 @@ namespace NeuralNet
 
         public override TrainingResult Train(NetworkData data, TrainingParameters parameters, Action<TrainingProgress> progressCallback)
         {
-            return null;
+            if (data == null) throw new ArgumentNullException(nameof(data));
+            if (parameters == null) throw new ArgumentNullException(nameof(parameters));
+
+            float[][][] trainingCases = data.Inputs.Select((input, index) =>
+                new float[][] { input.Select(x => (float)x).ToArray(), data.Outputs[index].Select(y => (float)y).ToArray() }).ToArray();
+
+            int iteration = 0;
+            float error = float.MaxValue;
+            Stopwatch stopwatch = Stopwatch.StartNew();
+
+            while (error > parameters.ErrorThreshold && iteration < parameters.MaxIterations)
+            {
+                error = 0;
+                foreach (var singleCase in trainingCases)
+                {
+                    Iterate(singleCase[0]); // Forward pass
+                    CalculateOutputErrors(singleCase[1]); // Compute output layer error
+                    BackPropagate((float)parameters.LearningRate); // Update weights
+
+                    error += OutputErrors.Select(x => Math.Abs(x)).Sum();
+                }
+
+                error /= trainingCases.Length; // Get average error
+
+                iteration++;
+                progressCallback?.Invoke(new TrainingProgress { Iteration = iteration, Error = error });
+
+                if (error <= parameters.ErrorThreshold) break;
+            }
+
+            stopwatch.Stop();
+            return new TrainingResult { IterationCount = iteration, FinalError = error, TrainingTime = stopwatch.Elapsed };
         }
 
         public override double[][] Test(NetworkData data)
         {
-            return null;
+            if (data == null) throw new ArgumentNullException(nameof(data));
+
+            return data.Inputs.Select(input =>
+            {
+                Iterate(input.Select(x => (float)x).ToArray());
+                return NeuronOutputs.Skip(NeuronOutputs.Length - NeuronLayerStructure.Last()).Select(x => (double)x).ToArray();
+            }).ToArray();
         }
+
     }
 }
 

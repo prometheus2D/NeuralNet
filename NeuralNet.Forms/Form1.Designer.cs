@@ -30,15 +30,18 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             toolStripContainer1 = new ToolStripContainer();
-            chartUserControl = new ChatUserControl();
+            chartUserControl = new ChartUserControl();
             menuStrip1 = new MenuStrip();
             fileToolStripMenuItem = new ToolStripMenuItem();
             exitToolStripMenuItem = new ToolStripMenuItem();
             toolStripButtonRefresh = new ToolStripButton();
             toolStrip1 = new ToolStrip();
             toolStripDropDownButtonDataSet = new ToolStripDropDownButton();
-            toolStripTextBoxNNPattern = new ToolStripTextBox();
             toolStripDropDownButtonNNModel = new ToolStripDropDownButton();
+            accordBPToolStripMenuItem = new ToolStripMenuItem();
+            encogBPToolStripMenuItem = new ToolStripMenuItem();
+            ronBPToolStripMenuItem = new ToolStripMenuItem();
+            toolStripTextBoxNNPattern = new ToolStripTextBox();
             toolStripContainer1.ContentPanel.SuspendLayout();
             toolStripContainer1.TopToolStripPanel.SuspendLayout();
             toolStripContainer1.SuspendLayout();
@@ -112,7 +115,7 @@
             toolStrip1.Items.AddRange(new ToolStripItem[] { toolStripDropDownButtonDataSet, toolStripDropDownButtonNNModel, toolStripTextBoxNNPattern });
             toolStrip1.Location = new Point(3, 26);
             toolStrip1.Name = "toolStrip1";
-            toolStrip1.Size = new Size(229, 25);
+            toolStrip1.Size = new Size(260, 25);
             toolStrip1.TabIndex = 1;
             // 
             // toolStripDropDownButtonDataSet
@@ -124,21 +127,40 @@
             toolStripDropDownButtonDataSet.Size = new Size(43, 22);
             toolStripDropDownButtonDataSet.Text = "XOR";
             // 
+            // toolStripDropDownButtonNNModel
+            // 
+            toolStripDropDownButtonNNModel.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            toolStripDropDownButtonNNModel.DropDownItems.AddRange(new ToolStripItem[] { accordBPToolStripMenuItem, encogBPToolStripMenuItem, ronBPToolStripMenuItem });
+            toolStripDropDownButtonNNModel.Image = (Image)resources.GetObject("toolStripDropDownButtonNNModel.Image");
+            toolStripDropDownButtonNNModel.ImageTransparentColor = Color.Magenta;
+            toolStripDropDownButtonNNModel.Name = "toolStripDropDownButtonNNModel";
+            toolStripDropDownButtonNNModel.Size = new Size(72, 22);
+            toolStripDropDownButtonNNModel.Text = "AccordBP";
+            // 
+            // accordBPToolStripMenuItem
+            // 
+            accordBPToolStripMenuItem.Name = "accordBPToolStripMenuItem";
+            accordBPToolStripMenuItem.Size = new Size(180, 22);
+            accordBPToolStripMenuItem.Text = "Accord_BP";
+            // 
+            // encogBPToolStripMenuItem
+            // 
+            encogBPToolStripMenuItem.Name = "encogBPToolStripMenuItem";
+            encogBPToolStripMenuItem.Size = new Size(180, 22);
+            encogBPToolStripMenuItem.Text = "Encog_BP";
+            // 
+            // ronBPToolStripMenuItem
+            // 
+            ronBPToolStripMenuItem.Name = "ronBPToolStripMenuItem";
+            ronBPToolStripMenuItem.Size = new Size(180, 22);
+            ronBPToolStripMenuItem.Text = "Ron_BP";
+            // 
             // toolStripTextBoxNNPattern
             // 
             toolStripTextBoxNNPattern.BorderStyle = BorderStyle.FixedSingle;
             toolStripTextBoxNNPattern.Name = "toolStripTextBoxNNPattern";
             toolStripTextBoxNNPattern.Size = new Size(100, 25);
             toolStripTextBoxNNPattern.Text = "[IN]x3x[OUT]";
-            // 
-            // toolStripDropDownButtonNNModel
-            // 
-            toolStripDropDownButtonNNModel.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            toolStripDropDownButtonNNModel.Image = (Image)resources.GetObject("toolStripDropDownButtonNNModel.Image");
-            toolStripDropDownButtonNNModel.ImageTransparentColor = Color.Magenta;
-            toolStripDropDownButtonNNModel.Name = "toolStripDropDownButtonNNModel";
-            toolStripDropDownButtonNNModel.Size = new Size(72, 22);
-            toolStripDropDownButtonNNModel.Text = "AccordBP";
             // 
             // Form1
             // 
@@ -171,7 +193,10 @@
         private ToolStripButton toolStripButtonRefresh;
         private ToolStripDropDownButton toolStripDropDownButtonDataSet;
         private ToolStripTextBox toolStripTextBoxNNPattern;
-        private ChatUserControl chartUserControl;
+        private ChartUserControl chartUserControl;
         private ToolStripDropDownButton toolStripDropDownButtonNNModel;
+        private ToolStripMenuItem accordBPToolStripMenuItem;
+        private ToolStripMenuItem encogBPToolStripMenuItem;
+        private ToolStripMenuItem ronBPToolStripMenuItem;
     }
 }

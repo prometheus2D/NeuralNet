@@ -1,6 +1,6 @@
 ﻿namespace NeuralNet.Forms
 {
-    partial class ChatUserControl
+    partial class ChartUserControl
     {
         /// <summary> 
         /// Required designer variable.

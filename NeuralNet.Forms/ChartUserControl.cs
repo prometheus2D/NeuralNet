@@ -11,9 +11,9 @@ using System.Windows.Forms.DataVisualization.Charting;
 
 namespace NeuralNet.Forms
 {
-    public partial class ChatUserControl: UserControl
+    public partial class ChartUserControl: UserControl
     {
-        public ChatUserControl()
+        public ChartUserControl()
         {
             InitializeComponent();
         }
@@ -27,6 +27,7 @@ namespace NeuralNet.Forms
             //chart1.Series.Add(series);
             //for (int i = 0; i < 10; i++)
             //    series.Points.AddXY(i, i);
+
 
             if (!chart1.Series.Where(x => x.Name == seriesName).Any())
                 chart1.Series.Add(new Series(seriesName)
