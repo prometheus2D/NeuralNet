@@ -36,15 +36,14 @@ namespace NeuralNet.Data
                 var splitLine = line.Split(',');
 
                 Inputs[i - 1] = new double[splitLine.Length - 1];
-                Outputs[i - 1] = new double[1];
+                Outputs[i - 1] = new double[10]; // One-hot array for digits 0-9
+
                 for (int j = 1; j < splitLine.Length; j++)
                     Inputs[i - 1][j - 1] = double.Parse(splitLine[j]);
 
-                Outputs[i - 1][0] = double.Parse(splitLine[0]);
+                int label = int.Parse(splitLine[0]);
+                Outputs[i - 1][label] = 1.0; // Set the corresponding digit position to 1
             }
-
-
-
         }
 
         //Static Data
