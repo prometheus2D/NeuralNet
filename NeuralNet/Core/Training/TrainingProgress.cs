@@ -1,4 +1,4 @@
-﻿namespace NeuralNet
+﻿namespace NeuralNet.Core.Training
 {
     /// <summary>
     /// Contains training progress information.

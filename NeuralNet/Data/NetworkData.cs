@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NeuralNet
+namespace NeuralNet.Data
 {
     public class NetworkData
     {
@@ -24,21 +24,28 @@ namespace NeuralNet
 
         public NetworkData(string filePath)
         {
-            filePath = @"D:\Data\mnist_train.csv";
-
             var lines = File.ReadAllLines(filePath);
             var headers = lines[0];
 
+            Inputs = new double[lines.Length - 1][];
+            Outputs = new double[lines.Length - 1][];
+
             for (int i = 1; i < lines.Length; i++)
             {
+                var line = lines[i];
+                var splitLine = line.Split(',');
 
+                Inputs[i - 1] = new double[splitLine.Length - 1];
+                Outputs[i - 1] = new double[1];
+                for (int j = 1; j < splitLine.Length; j++)
+                    Inputs[i - 1][j - 1] = double.Parse(splitLine[j]);
+
+                Outputs[i - 1][0] = double.Parse(splitLine[0]);
             }
 
 
 
-
         }
-
 
         //Static Data
         public static NetworkData XORData { get; } = new NetworkData(
@@ -58,6 +65,6 @@ namespace NeuralNet
             }
         );
 
-        public static NetworkData MNISTData { get; } = new NetworkData("");
+        public static NetworkData MNISTData { get; } = new NetworkData(@"D:\Data\mnist_train.csv");
     }
 }

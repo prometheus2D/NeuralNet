@@ -2,8 +2,9 @@
 using Encog.Neural.Networks;
 using Encog.Neural.Networks.Layers;
 using Encog.Engine.Network.Activation;
+using NeuralNet.Core.Global;
 
-namespace NeuralNet
+namespace NeuralNet.Networks.Encog
 {
     public class EncogNetworkFactory : INetworkFactory
     {

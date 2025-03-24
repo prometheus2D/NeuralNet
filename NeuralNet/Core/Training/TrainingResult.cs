@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NeuralNet
+namespace NeuralNet.Core.Training
 {
     /// <summary>
     /// Contains final training results.

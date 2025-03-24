@@ -1,10 +1,13 @@
-﻿using System;
+﻿using NeuralNet.Networks.Accord;
+using NeuralNet.Networks.Encog;
+using NeuralNet.Networks.RonNet;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NeuralNet.Network
+namespace NeuralNet.Core.Global
 {
     public class GlobalFactory
     {

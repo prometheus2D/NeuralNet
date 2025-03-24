@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NeuralNet.Core.Global;
+using NeuralNet.Core.Training;
+using NeuralNet.Data;
 
-namespace NeuralNet.Network
+namespace NeuralNet.Core
 {
     public abstract class AbstractNetworkInstance : INetworkInstance
     {

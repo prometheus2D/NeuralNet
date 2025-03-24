@@ -1,8 +1,9 @@
 ﻿using Accord.Neuro;
 using Accord.Neuro.Networks;
+using NeuralNet.Core.Global;
 using System;
 
-namespace NeuralNet
+namespace NeuralNet.Networks.Accord
 {
     public class AccordNetworkFactory : INetworkFactory
     {

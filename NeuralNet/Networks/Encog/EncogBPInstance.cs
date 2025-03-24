@@ -6,9 +6,11 @@ using Encog.Neural.Networks;
 using Encog.Neural.Networks.Layers;
 using Encog.Engine.Network.Activation;
 using Encog.Neural.Networks.Training.Propagation.Back;
-using NeuralNet.Network;
+using NeuralNet.Core;
+using NeuralNet.Core.Training;
+using NeuralNet.Data;
 
-namespace NeuralNet
+namespace NeuralNet.Networks.Encog
 {
     public class EncogBPInstance : AbstractNetworkInstance
     {

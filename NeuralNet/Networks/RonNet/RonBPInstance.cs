@@ -3,11 +3,13 @@ using Accord.Neuro;
 using Accord.Neuro.Learning;
 using Encog.ML.Data.Basic;
 using Encog.ML.Data;
-using NeuralNet.Network;
+using NeuralNet.Core;
 using Encog.Neural.Networks.Training.Propagation.Back;
 using System.Diagnostics;
+using NeuralNet.Core.Training;
+using NeuralNet.Data;
 
-namespace NeuralNet
+namespace NeuralNet.Networks.RonNet
 {
     /// <summary>
     /// A concrete network instance using the Accord.NET library.
@@ -207,7 +209,7 @@ namespace NeuralNet
                 }
 
                 //Apply Changes to synapses
-                learningRate *= 5f;
+                //learningRate *= 5f;
                 for (int synIndex = synapseStartIndex; synIndex < synapseStartIndex + NeuronLayerStructure[layer] * NeuronLayerStructure[layer + 1]; synIndex++)
                 {
                     Synapses[synIndex].Weight += learningRate * NeuronOutputs[Synapses[synIndex].InputNeuronID] * NeuronErrors[Synapses[synIndex].OutputNeuronID];

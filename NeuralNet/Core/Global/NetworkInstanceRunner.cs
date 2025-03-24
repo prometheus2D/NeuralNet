@@ -1,6 +1,8 @@
 ﻿using System;
+using NeuralNet.Core.Training;
+using NeuralNet.Data;
 
-namespace NeuralNet
+namespace NeuralNet.Core.Global
 {
     public class NetworkInstanceRunner
     {
@@ -31,7 +33,7 @@ namespace NeuralNet
             TrainingResult result = Instance.Train(Data, Parameters, progress =>
             {
                 // Decide to log based on runner-controlled verbosity.
-                if ((Parameters.Verbose && (Parameters.VerboseModulus <= 0 || progress.Iteration % Parameters.VerboseModulus == 0))
+                if (Parameters.Verbose && (Parameters.VerboseModulus <= 0 || progress.Iteration % Parameters.VerboseModulus == 0)
                     || progress.Iteration % 1000 == 0)
                 {
                     //Console.WriteLine($"Iteration: {progress.Iteration}, Current error: {progress.Error:F4}");

@@ -1,6 +1,8 @@
 ﻿using System;
+using NeuralNet.Core.Training;
+using NeuralNet.Data;
 
-namespace NeuralNet
+namespace NeuralNet.Core.Global
 {
     public interface INetworkInstance
     {

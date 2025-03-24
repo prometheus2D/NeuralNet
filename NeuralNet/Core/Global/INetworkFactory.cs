@@ -1,4 +1,4 @@
-﻿namespace NeuralNet
+﻿namespace NeuralNet.Core.Global
 {
     public interface INetworkFactory
     {

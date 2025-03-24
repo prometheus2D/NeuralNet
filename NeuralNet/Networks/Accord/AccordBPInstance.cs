@@ -1,9 +1,11 @@
 ﻿using System;
 using Accord.Neuro;
 using Accord.Neuro.Learning;
-using NeuralNet.Network;
+using NeuralNet.Core;
+using NeuralNet.Core.Training;
+using NeuralNet.Data;
 
-namespace NeuralNet
+namespace NeuralNet.Networks.Accord
 {
     /// <summary>
     /// A concrete network instance using the Accord.NET library.

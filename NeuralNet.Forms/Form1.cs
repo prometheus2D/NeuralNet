@@ -1,4 +1,7 @@
-using NeuralNet.Network;
+using NeuralNet.Core;
+using NeuralNet.Core.Global;
+using NeuralNet.Core.Training;
+using NeuralNet.Data;
 using System.Windows.Forms.DataVisualization.Charting;
 
 namespace NeuralNet.Forms

@@ -1,8 +1,7 @@
 ﻿using System;
-using Accord.Neuro;
-using Accord.Neuro.Networks;
-using Encog.App.Quant.Loader.OpenQuant.Data;
-using Encog.Bot.Browse.Range;
+using NeuralNet.Core.Global;
+using NeuralNet.Data;
+using NeuralNet.Networks.Accord;
 
 namespace NeuralNet
 {
