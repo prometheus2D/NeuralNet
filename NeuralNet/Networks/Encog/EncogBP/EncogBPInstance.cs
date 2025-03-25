@@ -10,7 +10,7 @@ using NeuralNet.Core;
 using NeuralNet.Core.Training;
 using NeuralNet.Data;
 
-namespace NeuralNet.Networks.Encog
+namespace NeuralNet.Networks.Encog.EncogBP
 {
     public class EncogBPInstance : AbstractNetworkInstance
     {

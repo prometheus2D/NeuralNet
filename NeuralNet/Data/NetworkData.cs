@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -8,11 +9,15 @@ namespace NeuralNet.Data
 {
     public class NetworkData
     {
+        public string Key { get; set; }
         public double[][] Inputs { get; }
         public double[][] Outputs { get; }
+        public int InputSetLength => Inputs[0].Length;
+        public int OutputSetLength => Outputs[0].Length;
 
-        public NetworkData(double[][] inputs, double[][] outputs)
+        public NetworkData(string key, double[][] inputs, double[][] outputs)
         {
+            Key = key;
             if (inputs == null || outputs == null)
                 throw new ArgumentNullException("Inputs and Outputs cannot be null.");
             if (inputs.Length != outputs.Length)
@@ -22,8 +27,9 @@ namespace NeuralNet.Data
             Outputs = outputs;
         }
 
-        public NetworkData(string filePath)
+        public NetworkData(string key, string filePath)
         {
+            Key = key;
             var lines = File.ReadAllLines(filePath);
             var headers = lines[0];
 
@@ -47,7 +53,23 @@ namespace NeuralNet.Data
         }
 
         //Static Data
-        public static NetworkData XORData { get; } = new NetworkData(
+        public static Dictionary<string, NetworkData> NetworkDataDictionary = 
+            new Func<Dictionary<string, NetworkData>>(() => 
+            {
+                var list = new List<NetworkData>()
+                {
+                    InitXORData(),
+                    //InitMNISTData()
+                };
+
+                var result = new Dictionary<string, NetworkData>();
+
+                foreach (var item in list)
+                    result.Add(item.Key, item);
+
+                return result;
+            })();
+        public static NetworkData InitXORData() => new NetworkData("XOR",
             new double[][]
             {
                 new double[] { 0, 0 },
@@ -64,6 +86,6 @@ namespace NeuralNet.Data
             }
         );
 
-        public static NetworkData MNISTData { get; } = new NetworkData(@"D:\Data\mnist_train.csv");
+        public static NetworkData InitMNISTData() => new NetworkData("MNIST", @"D:\Data\mnist_train.csv");
     }
 }

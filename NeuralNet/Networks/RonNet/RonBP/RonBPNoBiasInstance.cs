@@ -9,12 +9,12 @@ using System.Diagnostics;
 using NeuralNet.Core.Training;
 using NeuralNet.Data;
 
-namespace NeuralNet.Networks.RonNet
+namespace NeuralNet.Networks.RonNet.RonBP
 {
     /// <summary>
     /// A concrete network instance using the Accord.NET library.
     /// </summary>
-    public class RonBPInstance : AbstractNetworkInstance
+    public class RonBPNoBiasInstance : AbstractNetworkInstance
     {
         //Structs
         public struct Neuron
@@ -51,7 +51,7 @@ namespace NeuralNet.Networks.RonNet
         }
 
         //Constructor
-        public RonBPInstance(int[] layers)
+        public RonBPNoBiasInstance(int[] layers)
         {
             var currentRawNeuronID = 0;
             var currentRawSynapseID = 0;
@@ -183,15 +183,20 @@ namespace NeuralNet.Networks.RonNet
         }
         public void BackPropagate(float learningRate)
         {
-            int synapseIndex = Synapses.Length;
+            // Propagate errors backward from the output to the input layer
+            int synapseIndex = Synapses.Length; // Start from the last synapse
             for (int layer = NeuronLayerStructure.Length - 2; layer >= 0; layer--)
             {
                 int layerStartIndex = layer > 0 ? NeuronLayerStructure.Take(layer).Sum() : 0;
                 int layerEndIndex = layerStartIndex + NeuronLayerStructure[layer];
+                //int nextLayerStartIndex = layerEndIndex;
+                //int nextLayerEndIndex = nextLayerStartIndex + NeuronLayerStructure[layer + 1];
 
+                // Update synapses between current layer and next layer
                 synapseIndex -= NeuronLayerStructure[layer] * NeuronLayerStructure[layer + 1];
                 int synapseStartIndex = synapseIndex;
 
+                // Compute the delta for each neuron in the current layer
                 for (int i = layerStartIndex; i < layerEndIndex; i++)
                 {
                     float delta = 0.0f;
@@ -205,19 +210,11 @@ namespace NeuralNet.Networks.RonNet
                     NeuronErrors[i] = delta * SigmoidDerivative(NeuronOutputs[i]);
                 }
 
+                //Apply Changes to synapses
+                //learningRate *= 5f;
                 for (int synIndex = synapseStartIndex; synIndex < synapseStartIndex + NeuronLayerStructure[layer] * NeuronLayerStructure[layer + 1]; synIndex++)
                 {
                     Synapses[synIndex].Weight += learningRate * NeuronOutputs[Synapses[synIndex].InputNeuronID] * NeuronErrors[Synapses[synIndex].OutputNeuronID];
-                }
-
-                // Update neuron biases directly
-                int nextLayerStart = layerEndIndex;
-                int nextLayerEnd = nextLayerStart + NeuronLayerStructure[layer + 1];
-                for (int i = nextLayerStart; i < nextLayerEnd; i++)
-                {
-                    var neuron = Neurons[i];
-                    neuron.Bias += learningRate * NeuronErrors[i];
-                    Neurons[i] = neuron; // Since it's a struct, reassign to persist
                 }
             }
         }

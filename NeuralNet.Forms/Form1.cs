@@ -9,15 +9,40 @@ namespace NeuralNet.Forms
     public partial class Form1 : Form
     {
         public static string ModelStringKey = null;
+        private Task _RunTask;
+        public Task RunTask 
+        {
+            get => _RunTask;
+            set
+            {
+                _RunTask = value;
+                toolStripButtonStop.Enabled = value != null;
+            }
+        }
 
         public Form1()
         {
             //UI
             InitializeComponent();
             exitToolStripMenuItem.Click += (sender, args) => Application.Exit();
-            toolStripDropDownButtonDataSet.DropDownItems.Add("XOR", null, (sender, args) => toolStripDropDownButtonDataSet.Text = "XOR");
 
-            //Model UI
+            //Add DataSets
+            var dataSourceButtons = new List<ToolStripItem>()
+            {
+                toolStripDropDownButtonDataSet.DropDownItems.Add("XOR", null, (sender, args) => toolStripDropDownButtonDataSet.Text = "XOR"),
+                toolStripDropDownButtonDataSet.DropDownItems.Add("MNIST", null, (sender, args) => toolStripDropDownButtonDataSet.Text = "MNIST")
+            };
+
+            //Time Control
+            toolStripButtonStop.Click += (sender, args) =>
+            {
+
+            };
+
+            //Add Networks
+            var nnButtons = new List<ToolStripItem>();
+            foreach (var x in GlobalFactory.NetworkFactories.Values)
+                nnButtons.Add(toolStripDropDownButtonNNModel.DropDownItems.Add(x.NetworkKey, null, (sender, args) => toolStripDropDownButtonNNModel.Text = x.NetworkKey));
             foreach (var item in toolStripDropDownButtonNNModel.DropDownItems)
             {
                 (item as ToolStripMenuItem).Click += (sender, args) =>
@@ -29,20 +54,13 @@ namespace NeuralNet.Forms
                         (item as ToolStripMenuItem).Checked = item == sender;
                 };
             }
-
-            //Create Graph
-            var series = new Series("Test")
-            {
-                ChartType = SeriesChartType.Line
-            };
-
             //Refresh Runs
             toolStripButtonRefresh.Click += (sender, args) =>
             {
-                series.Points.Clear();
-                NetworkData data = NetworkData.XORData;
+                //NetworkData data = NetworkData.InitXORData();
+                NetworkData data = NetworkData.NetworkDataDictionary[toolStripDropDownButtonDataSet.Text ?? throw new Exception()];
 
-                var instance = GlobalFactory.CreateNetworkInstance(ModelStringKey, "BackProp", new int[] { 2, 3, 1 });
+                var instance = GlobalFactory.CreateNetworkInstance(ModelStringKey, "BackProp", new int[] { data.InputSetLength, 3, data.OutputSetLength });
                 var runner = new NetworkInstanceRunner(instance, data, null,
                     null,//line => Console.WriteLine(line),
                     (index, value) => chartUserControl.AddSeriesDataPoint(instance.Guid.ToString(), index, value))
@@ -54,12 +72,21 @@ namespace NeuralNet.Forms
                     }
                 };
 
-                runner.Run();
+                //runner.Run();
+                //RunTask =
+                    //Task.Run(() =>
+                    //{
+                        runner.Run();
+                    //}//, 
+                    //_RunTokenSource.Token
+                    //).ContinueWith((x) => RunTask = null
+                    //);
             };
 
             //Perform Setup
-            ronBPToolStripMenuItem.PerformClick();
-            toolStripButtonRefresh.PerformClick();
+            dataSourceButtons.Where(x => x.Text == "XOR").FirstOrDefault().PerformClick();
+            nnButtons.FirstOrDefault().PerformClick();
+            //toolStripButtonRefresh.PerformClick();
         }
     }
 }

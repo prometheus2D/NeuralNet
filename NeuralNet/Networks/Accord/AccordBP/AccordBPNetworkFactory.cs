@@ -3,9 +3,9 @@ using Accord.Neuro.Networks;
 using NeuralNet.Core.Global;
 using System;
 
-namespace NeuralNet.Networks.Accord
+namespace NeuralNet.Networks.Accord.AccordBP
 {
-    public class AccordNetworkFactory : INetworkFactory
+    public class AccordBPNetworkFactory : INetworkFactory
     {
         public INetworkInstance CreateNetwork(int inputCount, int hiddenCount, int outputCount)
         {

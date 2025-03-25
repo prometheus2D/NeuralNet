@@ -1,6 +1,9 @@
 ﻿using NeuralNet.Networks.Accord;
+using NeuralNet.Networks.Accord.AccordBP;
 using NeuralNet.Networks.Encog;
+using NeuralNet.Networks.Encog.EncogBP;
 using NeuralNet.Networks.RonNet;
+using NeuralNet.Networks.RonNet.RonBP;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,9 +16,9 @@ namespace NeuralNet.Core.Global
     {
         public static Dictionary<string, INetworkFactory> NetworkFactories { get; } = new Dictionary<string, INetworkFactory>()
         {
-            { "accord", new AccordNetworkFactory() },
-            { "encog", new EncogNetworkFactory() },
-            { "ron", new RonNetworkFactory() }
+            { "accordbp", new AccordBPNetworkFactory() },
+            { "encogbp", new EncogBPNetworkFactory() },
+            { "ronbp", new RonBPNetworkFactory() }
         };
 
         public static INetworkInstance CreateNetworkInstance(string networkType, string optType, int[] network)

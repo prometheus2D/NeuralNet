@@ -2,6 +2,7 @@
 using NeuralNet.Core.Global;
 using NeuralNet.Data;
 using NeuralNet.Networks.Accord;
+using NeuralNet.Networks.Accord.AccordBP;
 
 namespace NeuralNet
 {
@@ -9,10 +10,10 @@ namespace NeuralNet
     {
         static void Main(string[] args)
         {
-            NetworkData data = NetworkData.XORData;
+            NetworkData data = NetworkData.InitXORData();
 
             // ----- Create an Accord-based network runner -----
-            var factory = new AccordNetworkFactory();
+            var factory = new AccordBPNetworkFactory();
             INetworkInstance accordInstance = factory.CreateNetwork(2, 3, 1);
             NetworkInstanceRunner accordRunner = new NetworkInstanceRunner(accordInstance, data, null,
                 line => Console.WriteLine(line)//,

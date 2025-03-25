@@ -38,10 +38,8 @@
             toolStrip1 = new ToolStrip();
             toolStripDropDownButtonDataSet = new ToolStripDropDownButton();
             toolStripDropDownButtonNNModel = new ToolStripDropDownButton();
-            accordBPToolStripMenuItem = new ToolStripMenuItem();
-            encogBPToolStripMenuItem = new ToolStripMenuItem();
-            ronBPToolStripMenuItem = new ToolStripMenuItem();
             toolStripTextBoxNNPattern = new ToolStripTextBox();
+            toolStripButtonStop = new ToolStripButton();
             toolStripContainer1.ContentPanel.SuspendLayout();
             toolStripContainer1.TopToolStripPanel.SuspendLayout();
             toolStripContainer1.SuspendLayout();
@@ -112,10 +110,10 @@
             // toolStrip1
             // 
             toolStrip1.Dock = DockStyle.None;
-            toolStrip1.Items.AddRange(new ToolStripItem[] { toolStripDropDownButtonDataSet, toolStripDropDownButtonNNModel, toolStripTextBoxNNPattern });
+            toolStrip1.Items.AddRange(new ToolStripItem[] { toolStripDropDownButtonDataSet, toolStripDropDownButtonNNModel, toolStripTextBoxNNPattern, toolStripButtonStop });
             toolStrip1.Location = new Point(3, 26);
             toolStrip1.Name = "toolStrip1";
-            toolStrip1.Size = new Size(260, 25);
+            toolStrip1.Size = new Size(295, 25);
             toolStrip1.TabIndex = 1;
             // 
             // toolStripDropDownButtonDataSet
@@ -130,30 +128,11 @@
             // toolStripDropDownButtonNNModel
             // 
             toolStripDropDownButtonNNModel.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            toolStripDropDownButtonNNModel.DropDownItems.AddRange(new ToolStripItem[] { accordBPToolStripMenuItem, encogBPToolStripMenuItem, ronBPToolStripMenuItem });
             toolStripDropDownButtonNNModel.Image = (Image)resources.GetObject("toolStripDropDownButtonNNModel.Image");
             toolStripDropDownButtonNNModel.ImageTransparentColor = Color.Magenta;
             toolStripDropDownButtonNNModel.Name = "toolStripDropDownButtonNNModel";
             toolStripDropDownButtonNNModel.Size = new Size(72, 22);
             toolStripDropDownButtonNNModel.Text = "AccordBP";
-            // 
-            // accordBPToolStripMenuItem
-            // 
-            accordBPToolStripMenuItem.Name = "accordBPToolStripMenuItem";
-            accordBPToolStripMenuItem.Size = new Size(180, 22);
-            accordBPToolStripMenuItem.Text = "Accord_BP";
-            // 
-            // encogBPToolStripMenuItem
-            // 
-            encogBPToolStripMenuItem.Name = "encogBPToolStripMenuItem";
-            encogBPToolStripMenuItem.Size = new Size(180, 22);
-            encogBPToolStripMenuItem.Text = "Encog_BP";
-            // 
-            // ronBPToolStripMenuItem
-            // 
-            ronBPToolStripMenuItem.Name = "ronBPToolStripMenuItem";
-            ronBPToolStripMenuItem.Size = new Size(180, 22);
-            ronBPToolStripMenuItem.Text = "Ron_BP";
             // 
             // toolStripTextBoxNNPattern
             // 
@@ -161,6 +140,16 @@
             toolStripTextBoxNNPattern.Name = "toolStripTextBoxNNPattern";
             toolStripTextBoxNNPattern.Size = new Size(100, 25);
             toolStripTextBoxNNPattern.Text = "[IN]x3x[OUT]";
+            // 
+            // toolStripButtonStop
+            // 
+            toolStripButtonStop.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            toolStripButtonStop.Enabled = false;
+            toolStripButtonStop.Image = (Image)resources.GetObject("toolStripButtonStop.Image");
+            toolStripButtonStop.ImageTransparentColor = Color.Magenta;
+            toolStripButtonStop.Name = "toolStripButtonStop";
+            toolStripButtonStop.Size = new Size(35, 22);
+            toolStripButtonStop.Text = "Stop";
             // 
             // Form1
             // 
@@ -195,8 +184,6 @@
         private ToolStripTextBox toolStripTextBoxNNPattern;
         private ChartUserControl chartUserControl;
         private ToolStripDropDownButton toolStripDropDownButtonNNModel;
-        private ToolStripMenuItem accordBPToolStripMenuItem;
-        private ToolStripMenuItem encogBPToolStripMenuItem;
-        private ToolStripMenuItem ronBPToolStripMenuItem;
+        private ToolStripButton toolStripButtonStop;
     }
 }

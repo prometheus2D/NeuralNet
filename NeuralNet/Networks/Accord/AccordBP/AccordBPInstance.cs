@@ -5,7 +5,7 @@ using NeuralNet.Core;
 using NeuralNet.Core.Training;
 using NeuralNet.Data;
 
-namespace NeuralNet.Networks.Accord
+namespace NeuralNet.Networks.Accord.AccordBP
 {
     /// <summary>
     /// A concrete network instance using the Accord.NET library.

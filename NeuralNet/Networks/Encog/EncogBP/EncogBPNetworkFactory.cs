@@ -4,9 +4,9 @@ using Encog.Neural.Networks.Layers;
 using Encog.Engine.Network.Activation;
 using NeuralNet.Core.Global;
 
-namespace NeuralNet.Networks.Encog
+namespace NeuralNet.Networks.Encog.EncogBP
 {
-    public class EncogNetworkFactory : INetworkFactory
+    public class EncogBPNetworkFactory : INetworkFactory
     {
         public INetworkInstance CreateNetwork(int inputCount, int hiddenCount, int outputCount)
         {

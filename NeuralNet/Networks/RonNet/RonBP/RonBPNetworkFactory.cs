@@ -3,9 +3,9 @@ using Accord.Neuro.Networks;
 using NeuralNet.Core.Global;
 using System;
 
-namespace NeuralNet.Networks.RonNet
+namespace NeuralNet.Networks.RonNet.RonBP
 {
-    public class RonNetworkFactory : INetworkFactory
+    public class RonBPNetworkFactory : INetworkFactory
     {
         public INetworkInstance CreateNetwork(int inputCount, int hiddenCount, int outputCount)
         {

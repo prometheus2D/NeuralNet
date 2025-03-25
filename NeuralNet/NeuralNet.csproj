@@ -13,4 +13,8 @@
     <PackageReference Include="encog-dotnet-core" Version="3.4.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Networks\RonNet\RonGA\" />
+  </ItemGroup>
+
 </Project>
