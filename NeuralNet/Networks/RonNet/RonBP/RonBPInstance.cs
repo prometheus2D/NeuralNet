@@ -109,11 +109,11 @@ namespace NeuralNet.Networks.RonNet.RonBP
             NeuronOutputs = new float[Neurons.Length];
             NeuronErrors = new float[Neurons.Length];
 
-            var random = new Random();
-            for (int i = 0; i < Synapses.Length; i++)
-                Synapses[i].Weight = (float)(random.NextDouble() * 2f) - 1f;
-            for (int i = 0; i < neurons.Length; i++)
-                neurons[i].Bias = (float)(random.NextDouble() * 2f) - 1f;
+            //var random = new Random();
+            //for (int i = 0; i < Synapses.Length; i++)
+            //    Synapses[i].Weight = (float)(random.NextDouble() * 2f) - 1f;
+            //for (int i = 0; i < neurons.Length; i++)
+            //    neurons[i].Bias = (float)(random.NextDouble() * 2f) - 1f;
 
             int SynapseTotal(int[] _layers)
             {

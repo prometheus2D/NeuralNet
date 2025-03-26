@@ -124,11 +124,13 @@ namespace NeuralNet.Core.Global
                 _LogQueue.Add(line);
             }
         }
+        public List<string> IterationData = new List<string>();
         public void QueueTrainIterationEvent(int index, double value)
         {
             if (TrainIterationEvent != null)
             {
                 _IterationQueue.Add((index, value));
+                //IterationData.Add(index + " - " + Math.Round(value, 4));
             }
         }
 
