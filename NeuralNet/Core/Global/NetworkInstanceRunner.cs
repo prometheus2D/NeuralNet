@@ -28,7 +28,7 @@ namespace NeuralNet.Core.Global
         {
             Instance = instance ?? throw new ArgumentNullException(nameof(instance));
             Data = data ?? throw new ArgumentNullException(nameof(data));
-            Parameters = parameters ?? new TrainingParameters();
+            Parameters = parameters ?? TrainingParameters.Default;
 
             LogEvent += logEvent;
             TrainIterationEvent += trainEvent;

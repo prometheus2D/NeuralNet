@@ -72,14 +72,10 @@ namespace NeuralNet.Forms
                 var instance = GlobalFactory.CreateNetworkInstance(ModelStringKey, "BackProp", new int[] { data.InputSetLength, 3, data.OutputSetLength });
                 Runner = new NetworkInstanceRunner(instance, data, null,
                     null,//line => Console.WriteLine(line),
-                    (index, value) => 
+                    (index, value) =>
                         chartUserControl.AddSeriesDataPoint(instance.Guid.ToString(), index, value))
                 {
-                    Parameters = new TrainingParameters
-                    {
-                        Verbose = true,
-                        VerboseModulus = 1
-                    }
+                    Parameters = TrainingParameters.Default
                 };
 
                 await Runner.Run();

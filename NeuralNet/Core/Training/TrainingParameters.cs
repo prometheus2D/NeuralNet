@@ -10,7 +10,7 @@
             LearningRate = 0.1,
             Momentum = 0.1,
             ErrorThreshold = 0.01,
-            MaxIterations = 10000,
+            MaxIterations = 100000,
             Verbose = true,
             VerboseModulus = 10
         };
@@ -24,12 +24,13 @@
             VerboseModulus = 10
         };
 
-
         public double LearningRate { get; set; } = 0.1;
         public double Momentum { get; set; } = 0.1;
         public double ErrorThreshold { get; set; } = 0.01;
         public int MaxIterations { get; set; } = 10000;
         public bool Verbose { get; set; } = true;
         public int VerboseModulus { get; set; } = 10;
+
+        private TrainingParameters() { }
     }
 }
