@@ -34,10 +34,10 @@ namespace NeuralNet.Forms
             timer1.Tick += (sender, args) =>
             {
                 if (Runner != null)
-                {
-                    if (Runner.HasEvents)
-                        Runner.ProcessEvents();
-                    else if (Runner.IsFinished)
+                {                    
+                    Runner.ProcessEvents();
+
+                    if (Runner.IsFinished)
                     {
                         Runner = null;
                         toolStripButtonRefresh.Enabled = true;

@@ -12,7 +12,6 @@ namespace NeuralNet.Core.Global
         public INetworkInstance Instance { get; }
         public NetworkData Data { get; }
         public TrainingParameters Parameters { get; set; }
-        public bool HasEvents { get; private set; } = false;
         public bool IsFinished { get; private set; } = false;
         public bool IsAborted { get; private set; } = false;
 
@@ -46,15 +45,12 @@ namespace NeuralNet.Core.Global
                 while (!_IterationQueue.IsEmpty)
                     if (_IterationQueue.TryDequeue(out (int Iteration, double Error) iterationData))
                         TrainIterationEvent.Invoke(iterationData.Iteration, iterationData.Error);
-
-            HasEvents = false;
         }
         public void QueueLogEvent(string line)
         {
             if (LogEvent != null)
             {
                 _LogQueue.Enqueue(line);
-                HasEvents = true;
             }
         }
         public void QueueTrainIterationEvent(int index, double value)
@@ -62,7 +58,6 @@ namespace NeuralNet.Core.Global
             if (TrainIterationEvent != null)
             {
                 _IterationQueue.Enqueue((index, value));
-                HasEvents = true;
             }
         }
 
