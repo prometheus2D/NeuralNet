@@ -71,11 +71,11 @@ namespace NeuralNet.Core.Global
             }
         }
 
-        private DoubleBuffer<string> _LogQueue { get; } = new();
-        private DoubleBuffer<(int Iteration, double Error)> _IterationQueue { get; } = new();
+        //private DoubleBuffer<string> _LogQueue { get; } = new();
+        //private DoubleBuffer<(int Iteration, double Error)> _IterationQueue { get; } = new();
 
-        //private ConcurrentQueue<string> _LogQueue { get; } = new();
-        //private ConcurrentQueue<(int Iteration, double Error)> _IterationQueue { get; } = new();
+        private ConcurrentQueue<string> _LogQueue { get; } = new();
+        private ConcurrentQueue<(int Iteration, double Error)> _IterationQueue { get; } = new();
 
         public NetworkInstanceRunner(INetworkInstance instance, NetworkData data, TrainingParameters parameters,
                     LogEventHandler logEvent = null, TrainIterationEventHandler trainEvent = null)
@@ -91,48 +91,53 @@ namespace NeuralNet.Core.Global
         public List<double> testOutput = new();
         public void ProcessEvents()
         {
-            //if (LogEvent != null)
-            //    while (!_LogQueue.IsEmpty)
-            //        if (_LogQueue.TryDequeue(out string logLine))
-            //            LogEvent.Invoke(logLine);
-
-            //if (TrainIterationEvent != null)
-            //    while (!_IterationQueue.IsEmpty)
-            //        if (_IterationQueue.TryDequeue(out (int Iteration, double Error) iterationData))
-            //        {
-            //            TrainIterationEvent.Invoke(iterationData.Iteration, iterationData.Error);
-            //        }
-
             if (LogEvent != null)
-            {
-                var items = _LogQueue.SwapAndRead();
-                foreach (var item in items)
-                    LogEvent.Invoke(item);
-            }
+                while (!_LogQueue.IsEmpty)
+                    if (_LogQueue.TryDequeue(out string logLine))
+                        LogEvent.Invoke(logLine);
 
             if (TrainIterationEvent != null)
-            {
-                var items = _IterationQueue.SwapAndRead();
-                foreach (var item in items)
-                    TrainIterationEvent.Invoke(item.Iteration, item.Error);
-            }
+                while (!_IterationQueue.IsEmpty)
+                    if (_IterationQueue.TryDequeue(out (int Iteration, double Error) iterationData))
+                    {
+                        TrainIterationEvent.Invoke(iterationData.Iteration, iterationData.Error);
+                    }
+
+            //if (LogEvent != null)
+            //{
+            //    var items = _LogQueue.SwapAndRead();
+            //    foreach (var item in items)
+            //        LogEvent.Invoke(item);
+            //}
+
+            //if (TrainIterationEvent != null)
+            //{
+            //    var items = _IterationQueue.SwapAndRead();
+            //    foreach (var item in items)
+            //        TrainIterationEvent.Invoke(item.Iteration, item.Error);
+            //}
         }
         public void QueueLogEvent(string line)
         {
             if (LogEvent != null)
-            {
-                _LogQueue.Add(line);
-            }
+                _LogQueue.Enqueue(line);
         }
-        public List<string> IterationData = new List<string>();
         public void QueueTrainIterationEvent(int index, double value)
         {
             if (TrainIterationEvent != null)
-            {
-                _IterationQueue.Add((index, value));
-                //IterationData.Add(index + " - " + Math.Round(value, 4));
-            }
+                _IterationQueue.Enqueue((index, value));
         }
+
+        //public void QueueLogEvent(string line)
+        //{
+        //    if (LogEvent != null)
+        //        _LogQueue.Add(line);
+        //}
+        //public void QueueTrainIterationEvent(int index, double value)
+        //{
+        //    if (TrainIterationEvent != null)
+        //        _IterationQueue.Add((index, value));
+        //}
 
         public Task RunTask { get; set; }
         public void Abort() => IsAborted = true;
