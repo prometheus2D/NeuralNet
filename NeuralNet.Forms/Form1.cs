@@ -69,7 +69,7 @@ namespace NeuralNet.Forms
                 //NetworkData data = NetworkData.InitXORData();
                 NetworkData data = NetworkData.NetworkDataDictionary[toolStripDropDownButtonDataSet.Text ?? throw new Exception()];
 
-                var instance = GlobalFactory.CreateNetworkInstance(ModelStringKey, "BackProp", new int[] { data.InputSetLength, 128, data.OutputSetLength });
+                var instance = GlobalFactory.CreateNetworkInstance(ModelStringKey, "BackProp", new int[] { data.InputSetLength, 3, data.OutputSetLength });
                 Runner = new NetworkInstanceRunner(instance, data, null,
                     null,//line => Console.WriteLine(line),
                     (index, value) => 
