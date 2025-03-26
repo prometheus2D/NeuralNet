@@ -104,12 +104,18 @@ namespace NeuralNet.Core.Global
             //        }
 
             if (LogEvent != null)
-                foreach (var item in _LogQueue.SwapAndRead())
+            {
+                var items = _LogQueue.SwapAndRead();
+                foreach (var item in items)
                     LogEvent.Invoke(item);
+            }
 
             if (TrainIterationEvent != null)
-                foreach (var item in _IterationQueue.SwapAndRead())
+            {
+                var items = _IterationQueue.SwapAndRead();
+                foreach (var item in items)
                     TrainIterationEvent.Invoke(item.Iteration, item.Error);
+            }
         }
         public void QueueLogEvent(string line)
         {
@@ -128,7 +134,7 @@ namespace NeuralNet.Core.Global
 
         public Task RunTask { get; set; }
         public void Abort() => IsAborted = true;
-        public async Task Run() => await Task.Run(_Run);
+        public Task Run() => Task.Run(_Run);
         private void _Run()
         {
             IsFinished = false;
