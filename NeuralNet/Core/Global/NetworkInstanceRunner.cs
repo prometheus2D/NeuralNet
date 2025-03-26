@@ -20,8 +20,62 @@ namespace NeuralNet.Core.Global
         public delegate void LogEventHandler(string line);
         public event LogEventHandler LogEvent;
 
-        private ConcurrentQueue<string> _LogQueue { get; } = new();
-        private ConcurrentQueue<(int Iteration, double Error)> _IterationQueue { get; } = new();
+        public class DoubleBuffer<T>
+        {
+            private readonly List<T>[] _buffers = { new(), new() };
+            private volatile int _writeIndex = 0; // 0 or 1
+            private readonly object _readLock = new(); // only needed for SwapAndRead
+
+            /// <summary>
+            /// Add item to the write buffer. Lock-free, thread-safe for single writer.
+            /// </summary>
+            public void Add(T item)
+            {
+                _buffers[_writeIndex].Add(item); // very fast, minimal contention
+            }
+
+            /// <summary>
+            /// Swap buffers and return the latest batch of written data.
+            /// Safe to call from a different thread (e.g., UI Timer).
+            /// </summary>
+            public List<T> SwapAndRead()
+            {
+                lock (_readLock)
+                {
+                    int currentWrite = _writeIndex;
+                    int newWrite = 1 - currentWrite;
+
+                    // Switch write buffer
+                    _writeIndex = newWrite;
+
+                    // Get the buffer that was just being written to
+                    List<T> ready = _buffers[currentWrite];
+
+                    // Clear the buffer that will now be written to
+                    _buffers[newWrite].Clear();
+
+                    return ready;
+                }
+            }
+
+            /// <summary>
+            /// Clears both buffers (useful during reset or shutdown).
+            /// </summary>
+            public void Clear()
+            {
+                lock (_readLock)
+                {
+                    _buffers[0].Clear();
+                    _buffers[1].Clear();
+                }
+            }
+        }
+
+        private DoubleBuffer<string> _LogQueue { get; } = new();
+        private DoubleBuffer<(int Iteration, double Error)> _IterationQueue { get; } = new();
+
+        //private ConcurrentQueue<string> _LogQueue { get; } = new();
+        //private ConcurrentQueue<(int Iteration, double Error)> _IterationQueue { get; } = new();
 
         public NetworkInstanceRunner(INetworkInstance instance, NetworkData data, TrainingParameters parameters,
                     LogEventHandler logEvent = null, TrainIterationEventHandler trainEvent = null)
@@ -34,30 +88,41 @@ namespace NeuralNet.Core.Global
             TrainIterationEvent += trainEvent;
         }
 
+        public List<double> testOutput = new();
         public void ProcessEvents()
         {
+            //if (LogEvent != null)
+            //    while (!_LogQueue.IsEmpty)
+            //        if (_LogQueue.TryDequeue(out string logLine))
+            //            LogEvent.Invoke(logLine);
+
+            //if (TrainIterationEvent != null)
+            //    while (!_IterationQueue.IsEmpty)
+            //        if (_IterationQueue.TryDequeue(out (int Iteration, double Error) iterationData))
+            //        {
+            //            TrainIterationEvent.Invoke(iterationData.Iteration, iterationData.Error);
+            //        }
+
             if (LogEvent != null)
-                while (!_LogQueue.IsEmpty)
-                    if (_LogQueue.TryDequeue(out string logLine))
-                        LogEvent.Invoke(logLine);
+                foreach (var item in _LogQueue.SwapAndRead())
+                    LogEvent.Invoke(item);
 
             if (TrainIterationEvent != null)
-                while (!_IterationQueue.IsEmpty)
-                    if (_IterationQueue.TryDequeue(out (int Iteration, double Error) iterationData))
-                        TrainIterationEvent.Invoke(iterationData.Iteration, iterationData.Error);
+                foreach (var item in _IterationQueue.SwapAndRead())
+                    TrainIterationEvent.Invoke(item.Iteration, item.Error);
         }
         public void QueueLogEvent(string line)
         {
             if (LogEvent != null)
             {
-                _LogQueue.Enqueue(line);
+                _LogQueue.Add(line);
             }
         }
         public void QueueTrainIterationEvent(int index, double value)
         {
             if (TrainIterationEvent != null)
             {
-                _IterationQueue.Enqueue((index, value));
+                _IterationQueue.Add((index, value));
             }
         }
 

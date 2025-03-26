@@ -88,7 +88,8 @@ namespace NeuralNet.Forms
 
             //Perform Setup
             dataSourceButtons.Where(x => x.Text == "XOR").FirstOrDefault().PerformClick();
-            nnButtons.FirstOrDefault().PerformClick();
+            //nnButtons.FirstOrDefault().PerformClick();
+            nnButtons.Where(x => x.Text.Contains("Ron")).FirstOrDefault().PerformClick();
             //toolStripButtonRefresh.PerformClick();
         }
     }

@@ -115,7 +115,7 @@
             toolStrip1.Items.AddRange(new ToolStripItem[] { toolStripDropDownButtonDataSet, toolStripDropDownButtonNNModel, toolStripTextBoxNNPattern, toolStripButtonStop });
             toolStrip1.Location = new Point(3, 26);
             toolStrip1.Name = "toolStrip1";
-            toolStrip1.Size = new Size(264, 25);
+            toolStrip1.Size = new Size(247, 25);
             toolStrip1.TabIndex = 1;
             // 
             // toolStripDropDownButtonDataSet
@@ -133,8 +133,8 @@
             toolStripDropDownButtonNNModel.Image = (Image)resources.GetObject("toolStripDropDownButtonNNModel.Image");
             toolStripDropDownButtonNNModel.ImageTransparentColor = Color.Magenta;
             toolStripDropDownButtonNNModel.Name = "toolStripDropDownButtonNNModel";
-            toolStripDropDownButtonNNModel.Size = new Size(72, 22);
-            toolStripDropDownButtonNNModel.Text = "AccordBP";
+            toolStripDropDownButtonNNModel.Size = new Size(55, 22);
+            toolStripDropDownButtonNNModel.Text = "RonBP";
             // 
             // toolStripTextBoxNNPattern
             // 
