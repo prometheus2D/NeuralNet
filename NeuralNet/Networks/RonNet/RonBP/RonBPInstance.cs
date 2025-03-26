@@ -8,6 +8,7 @@ using Encog.Neural.Networks.Training.Propagation.Back;
 using System.Diagnostics;
 using NeuralNet.Core.Training;
 using NeuralNet.Data;
+using NeuralNet.Core.Global;
 
 namespace NeuralNet.Networks.RonNet.RonBP
 {

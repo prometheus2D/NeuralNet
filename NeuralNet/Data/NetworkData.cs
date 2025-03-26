@@ -27,6 +27,23 @@ namespace NeuralNet.Data
             Outputs = outputs;
         }
 
+        public NetworkData ReduceByOutput(Func<double[], bool> reduceByOutputFilter)
+        {
+            var newInputs = new List<double[]>();
+            var newOutputs = new List<double[]>();
+
+            for (int i = 0; i < Inputs.Length; i++)
+            {
+                if (reduceByOutputFilter(Outputs[i]))
+                {
+                    newInputs.Add(Inputs[i]);
+                    newOutputs.Add(Outputs[i]);
+                }
+            }
+
+            return new NetworkData(Key, newInputs.ToArray(), newOutputs.ToArray());
+        }
+
         public NetworkData(string key, string filePath)
         {
             Key = key;
@@ -59,7 +76,7 @@ namespace NeuralNet.Data
                 var list = new List<NetworkData>()
                 {
                     InitXORData(),
-                    //InitMNISTData()
+                    InitMNISTData()
                 };
 
                 var result = new Dictionary<string, NetworkData>();

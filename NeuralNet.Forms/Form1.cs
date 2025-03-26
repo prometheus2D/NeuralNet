@@ -9,16 +9,7 @@ namespace NeuralNet.Forms
     public partial class Form1 : Form
     {
         public static string ModelStringKey = null;
-        private Task _RunTask;
-        public Task RunTask 
-        {
-            get => _RunTask;
-            set
-            {
-                _RunTask = value;
-                toolStripButtonStop.Enabled = value != null;
-            }
-        }
+        public static NetworkInstanceRunner Runner = null;
 
         public Form1()
         {
@@ -39,6 +30,22 @@ namespace NeuralNet.Forms
 
             };
 
+            //Event Timer
+            timer1.Tick += (sender, args) =>
+            {
+                if (Runner != null)
+                {
+                    if (Runner.HasEvents)
+                        Runner.ProcessEvents();
+                    else if (Runner.IsFinished)
+                    {
+                        Runner = null;
+                        toolStripButtonRefresh.Enabled = true;
+                        toolStripButtonStop.Enabled = false;
+                    }
+                }
+            };
+
             //Add Networks
             var nnButtons = new List<ToolStripItem>();
             foreach (var x in GlobalFactory.NetworkFactories.Values)
@@ -55,33 +62,29 @@ namespace NeuralNet.Forms
                 };
             }
             //Refresh Runs
-            toolStripButtonRefresh.Click += (sender, args) =>
+            toolStripButtonRefresh.Click += async (sender, args) =>
             {
+                toolStripButtonRefresh.Enabled = false;
+                toolStripButtonStop.Enabled = true;
                 //NetworkData data = NetworkData.InitXORData();
                 NetworkData data = NetworkData.NetworkDataDictionary[toolStripDropDownButtonDataSet.Text ?? throw new Exception()];
 
-                var instance = GlobalFactory.CreateNetworkInstance(ModelStringKey, "BackProp", new int[] { data.InputSetLength, 3, data.OutputSetLength });
-                var runner = new NetworkInstanceRunner(instance, data, null,
+                var instance = GlobalFactory.CreateNetworkInstance(ModelStringKey, "BackProp", new int[] { data.InputSetLength, 128, data.OutputSetLength });
+                Runner = new NetworkInstanceRunner(instance, data, null,
                     null,//line => Console.WriteLine(line),
-                    (index, value) => chartUserControl.AddSeriesDataPoint(instance.Guid.ToString(), index, value))
+                    (index, value) => 
+                        chartUserControl.AddSeriesDataPoint(instance.Guid.ToString(), index, value))
                 {
                     Parameters = new TrainingParameters
                     {
                         Verbose = true,
-                        VerboseModulus = 100
+                        VerboseModulus = 1
                     }
                 };
 
-                //runner.Run();
-                //RunTask =
-                    //Task.Run(() =>
-                    //{
-                        runner.Run();
-                    //}//, 
-                    //_RunTokenSource.Token
-                    //).ContinueWith((x) => RunTask = null
-                    //);
+                await Runner.Run();
             };
+            toolStripButtonStop.Click += (sender, args) => Runner.Abort();
 
             //Perform Setup
             dataSourceButtons.Where(x => x.Text == "XOR").FirstOrDefault().PerformClick();

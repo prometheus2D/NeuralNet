@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             toolStripContainer1 = new ToolStripContainer();
             chartUserControl = new ChartUserControl();
@@ -40,6 +41,7 @@
             toolStripDropDownButtonNNModel = new ToolStripDropDownButton();
             toolStripTextBoxNNPattern = new ToolStripTextBox();
             toolStripButtonStop = new ToolStripButton();
+            timer1 = new System.Windows.Forms.Timer(components);
             toolStripContainer1.ContentPanel.SuspendLayout();
             toolStripContainer1.TopToolStripPanel.SuspendLayout();
             toolStripContainer1.SuspendLayout();
@@ -113,7 +115,7 @@
             toolStrip1.Items.AddRange(new ToolStripItem[] { toolStripDropDownButtonDataSet, toolStripDropDownButtonNNModel, toolStripTextBoxNNPattern, toolStripButtonStop });
             toolStrip1.Location = new Point(3, 26);
             toolStrip1.Name = "toolStrip1";
-            toolStrip1.Size = new Size(295, 25);
+            toolStrip1.Size = new Size(264, 25);
             toolStrip1.TabIndex = 1;
             // 
             // toolStripDropDownButtonDataSet
@@ -151,6 +153,10 @@
             toolStripButtonStop.Size = new Size(35, 22);
             toolStripButtonStop.Text = "Stop";
             // 
+            // timer1
+            // 
+            timer1.Enabled = true;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -185,5 +191,6 @@
         private ChartUserControl chartUserControl;
         private ToolStripDropDownButton toolStripDropDownButtonNNModel;
         private ToolStripButton toolStripButtonStop;
+        private System.Windows.Forms.Timer timer1;
     }
 }
