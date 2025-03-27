@@ -19,25 +19,42 @@ namespace NeuralNet.Tests
 
             var runner = new NetworkInstanceRunner(networkInstance, networkData, trainingParemeters, null, (index, value) =>
             {
-                //if (index == 1 && WithinRange(value, .12567589, .0000001))
-                //    Assert.IsTrue(true);
-                //if (index == 18000 && WithinRange(value, .08327105, .0000001))
-                //    Assert.IsTrue(true);
-                //if (index == 20000 && WithinRange(value, .07856123, .0000001))
-                //    Assert.IsTrue(true);
-                //if (index == 40000 && WithinRange(value, .07466515, .0000001))
-                //    Assert.IsTrue(true);
-                //if (index == 100000 && WithinRange(value, .0742145, .0000001))
-                //    Assert.IsTrue(true);
+                if (index == 1 && !WithinRange(value, .12569589, .0001))
+                    Assert.Fail();
+                if (index == 18000 && !WithinRange(value, .08327105, .0000001))
+                    Assert.Fail();
+                if (index == 20000 && !WithinRange(value, .07856123, .0000001))
+                    Assert.Fail();
+                if (index == 40000 && !WithinRange(value, .07466515, .0000001)) 
+                    Assert.Fail();
+                if (index == 100000 && !WithinRange(value, .0742145, .0000001))
+                    Assert.Fail();
 
-                Assert.IsTrue(index == 1 && WithinRange(value, .12567589, .0000001));
-                Assert.IsTrue(index == 18000 && WithinRange(value, .08327105, .0000001));
-                Assert.IsTrue(index == 20000 && WithinRange(value, .07856123, .0000001));
-                Assert.IsTrue(index == 40000 && WithinRange(value, .07466515, .0000001));
-                Assert.IsTrue(index == 100000 && WithinRange(value, .0742145, .0000001));
+
+            
+                if (index == 1 && WithinRange(value, .12569589, .0001)) 
+                { 
+                }                
+                if (index == 18000 && WithinRange(value, .08327105, .0000001))
+                {
+                }
+                if (index == 20000 && WithinRange(value, .07856123, .0000001))
+                {
+                }
+                if (index == 40000 && WithinRange(value, .07466515, .0000001))
+                {
+                }
+                if (index == 100000 && WithinRange(value, .0742145, .0000001))
+                {
+                }
+
             });
+            runner.Run();
 
-            Assert.IsTrue(true);
+            while (!runner.IsFinished || runner.HasEvents) 
+            {
+                runner.ProcessEvents();
+            }
         }
     }
 }

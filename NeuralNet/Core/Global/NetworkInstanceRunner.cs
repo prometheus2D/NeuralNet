@@ -22,6 +22,7 @@ namespace NeuralNet.Core.Global
 
         private ConcurrentQueue<string> _LogQueue { get; } = new();
         private ConcurrentQueue<(int Iteration, double Error)> _IterationQueue { get; } = new();
+        public bool HasEvents => !_LogQueue.IsEmpty || !_IterationQueue.IsEmpty;
 
         public NetworkInstanceRunner(INetworkInstance instance, NetworkData data, TrainingParameters parameters,
                     LogEventHandler logEvent = null, TrainIterationEventHandler trainEvent = null)
@@ -60,7 +61,6 @@ namespace NeuralNet.Core.Global
                 _IterationQueue.Enqueue((index, value));
         }
 
-        public Task RunTask { get; set; }
         public void Abort() => IsAborted = true;
         public Task Run() => Task.Run(_Run);
         private void _Run()

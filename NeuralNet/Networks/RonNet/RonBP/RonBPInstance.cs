@@ -263,7 +263,6 @@ namespace NeuralNet.Networks.RonNet.RonBP
 
                 iteration++;
                 progressCallback?.Invoke(new TrainingProgress { Iteration = iteration, Error = error });
-                Debug.WriteLine(iteration + "-" + error);
 
                 if (error <= parameters.ErrorThreshold) break;
             }
