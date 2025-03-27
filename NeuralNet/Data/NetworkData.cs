@@ -70,22 +70,22 @@ namespace NeuralNet.Data
         }
 
         //Static Data
-        public static Dictionary<string, NetworkData> NetworkDataDictionary = 
-            new Func<Dictionary<string, NetworkData>>(() => 
+        public static NetworkData GetNetworkData(string key)
+        {
+            if (_NetworkDataDictionary.ContainsKey(key))
+                return _NetworkDataDictionary[key];
+
+            var newData = NetworkDataFactoryDictionary[key]();
+            _NetworkDataDictionary.Add(newData.Key, newData);
+            return newData;
+        }
+        private static Dictionary<string, NetworkData> _NetworkDataDictionary { get; set; } = new Dictionary<string, NetworkData>();
+        public static Dictionary<string, Func<NetworkData>> NetworkDataFactoryDictionary = 
+            new Dictionary<string, Func<NetworkData>>()
             {
-                var list = new List<NetworkData>()
-                {
-                    InitXORData(),
-                    InitMNISTData()
-                };
-
-                var result = new Dictionary<string, NetworkData>();
-
-                foreach (var item in list)
-                    result.Add(item.Key, item);
-
-                return result;
-            })();
+                { "XOR", () => InitXORData() },
+                { "MNIST", () => InitMNISTData() }
+            };
         public static NetworkData InitXORData() => new NetworkData("XOR",
             new double[][]
             {

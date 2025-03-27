@@ -14,8 +14,9 @@ namespace NeuralNet.Tests
         public void Test_RonBP_XOR_NonRandomInit()
         {
             var networkData = NetworkData.InitXORData();
-            var networkInstance = new RonBPInstance(new int[] { networkData.InputSetLength, 3, networkData.OutputSetLength });
+            var networkInstance = new RonBPInstance(new int[] { networkData.InputSetLength, 3, networkData.OutputSetLength }, false);
             var trainingParemeters = TrainingParameters.UnitTestDefault;
+            bool isTestFinished = false;
 
             var runner = new NetworkInstanceRunner(networkInstance, networkData, trainingParemeters, null, (index, value) =>
             {
@@ -30,28 +31,29 @@ namespace NeuralNet.Tests
                 if (index == 100000 && !WithinRange(value, .0742145, .0000001))
                     Assert.Fail();
 
+                if (index == 10000)
+                    isTestFinished = true;
 
-            
-                if (index == 1 && WithinRange(value, .12569589, .0001)) 
-                { 
-                }                
-                if (index == 18000 && WithinRange(value, .08327105, .0000001))
-                {
-                }
-                if (index == 20000 && WithinRange(value, .07856123, .0000001))
-                {
-                }
-                if (index == 40000 && WithinRange(value, .07466515, .0000001))
-                {
-                }
-                if (index == 100000 && WithinRange(value, .0742145, .0000001))
-                {
-                }
+                //if (index == 1 && WithinRange(value, .12569589, .0001)) 
+                //{ 
+                //}                
+                //if (index == 18000 && WithinRange(value, .08327105, .0000001))
+                //{
+                //}
+                //if (index == 20000 && WithinRange(value, .07856123, .0000001))
+                //{
+                //}
+                //if (index == 40000 && WithinRange(value, .07466515, .0000001))
+                //{
+                //}
+                //if (index == 100000 && WithinRange(value, .0742145, .0000001))
+                //{
+                //}
 
             });
             runner.Run();
 
-            while (!runner.IsFinished || runner.HasEvents) 
+            while (!isTestFinished || !runner.IsFinished || runner.HasEvents) 
             {
                 runner.ProcessEvents();
             }

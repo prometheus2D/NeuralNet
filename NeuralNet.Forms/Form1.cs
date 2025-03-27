@@ -67,8 +67,7 @@ namespace NeuralNet.Forms
                 toolStripButtonRefresh.Enabled = false;
                 toolStripButtonStop.Enabled = true;
                 //NetworkData data = NetworkData.InitXORData();
-                NetworkData data = NetworkData.NetworkDataDictionary[toolStripDropDownButtonDataSet.Text ?? throw new Exception()];
-
+                var data = NetworkData.GetNetworkData(toolStripDropDownButtonDataSet.Text ?? throw new Exception());
                 var instance = GlobalFactory.CreateNetworkInstance(ModelStringKey, "BackProp", new int[] { data.InputSetLength, 3, data.OutputSetLength });
                 Runner = new NetworkInstanceRunner(instance, data, null,
                     null,//line => Console.WriteLine(line),
