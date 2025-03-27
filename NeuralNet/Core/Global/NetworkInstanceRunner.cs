@@ -14,6 +14,7 @@ namespace NeuralNet.Core.Global
         public TrainingParameters Parameters { get; set; }
         public bool IsFinished { get; private set; } = false;
         public bool IsAborted { get; private set; } = false;
+        public int CurrentIteration { get; private set; } = -1;
 
         public delegate void TrainIterationEventHandler(int index, double value);
         public event TrainIterationEventHandler TrainIterationEvent;
@@ -69,6 +70,7 @@ namespace NeuralNet.Core.Global
 
             TrainingResult result = Instance.Train(Data, Parameters, progress =>
             {
+                CurrentIteration = progress.Iteration;
                 if (Parameters.Verbose && (Parameters.VerboseModulus <= 0 || progress.Iteration % Parameters.VerboseModulus == 0)
                     || progress.Iteration % 1000 == 0)
                 {
@@ -88,6 +90,7 @@ namespace NeuralNet.Core.Global
                 QueueLogEvent($"Input: [{string.Join(", ", Data.Inputs[i])}] => Output: {outputValue}");
             }
 
+            CurrentIteration = -1;
             IsFinished = true;
         }
     }

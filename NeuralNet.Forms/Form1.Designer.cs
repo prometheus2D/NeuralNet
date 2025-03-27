@@ -35,27 +35,36 @@
             menuStrip1 = new MenuStrip();
             fileToolStripMenuItem = new ToolStripMenuItem();
             exitToolStripMenuItem = new ToolStripMenuItem();
-            toolStripButtonRefresh = new ToolStripButton();
             toolStrip1 = new ToolStrip();
             toolStripDropDownButtonDataSet = new ToolStripDropDownButton();
             toolStripDropDownButtonNNModel = new ToolStripDropDownButton();
             toolStripTextBoxNNPattern = new ToolStripTextBox();
+            toolStripButtonStart = new ToolStripButton();
             toolStripButtonStop = new ToolStripButton();
             timer1 = new System.Windows.Forms.Timer(components);
+            statusStrip1 = new StatusStrip();
+            toolStripStatusLabelIterationStatic = new ToolStripStatusLabel();
+            toolStripStatusLabelIterationValue = new ToolStripStatusLabel();
+            toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             toolStripContainer1.ContentPanel.SuspendLayout();
             toolStripContainer1.TopToolStripPanel.SuspendLayout();
             toolStripContainer1.SuspendLayout();
             menuStrip1.SuspendLayout();
             toolStrip1.SuspendLayout();
+            statusStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // toolStripContainer1
             // 
             // 
+            // toolStripContainer1.BottomToolStripPanel
+            // 
+            toolStripContainer1.BottomToolStripPanel.Controls.Add(statusStrip1);
+            // 
             // toolStripContainer1.ContentPanel
             // 
             toolStripContainer1.ContentPanel.Controls.Add(chartUserControl);
-            toolStripContainer1.ContentPanel.Size = new Size(800, 399);
+            toolStripContainer1.ContentPanel.Size = new Size(800, 379);
             toolStripContainer1.Dock = DockStyle.Fill;
             toolStripContainer1.Location = new Point(0, 0);
             toolStripContainer1.Name = "toolStripContainer1";
@@ -73,16 +82,16 @@
             chartUserControl.Dock = DockStyle.Fill;
             chartUserControl.Location = new Point(0, 0);
             chartUserControl.Name = "chartUserControl";
-            chartUserControl.Size = new Size(800, 399);
+            chartUserControl.Size = new Size(800, 379);
             chartUserControl.TabIndex = 0;
             // 
             // menuStrip1
             // 
             menuStrip1.Dock = DockStyle.None;
-            menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, toolStripButtonRefresh });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(800, 26);
+            menuStrip1.Size = new Size(800, 24);
             menuStrip1.TabIndex = 0;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -90,7 +99,7 @@
             // 
             fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { exitToolStripMenuItem });
             fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            fileToolStripMenuItem.Size = new Size(37, 22);
+            fileToolStripMenuItem.Size = new Size(37, 20);
             fileToolStripMenuItem.Text = "File";
             // 
             // exitToolStripMenuItem
@@ -99,23 +108,13 @@
             exitToolStripMenuItem.Size = new Size(93, 22);
             exitToolStripMenuItem.Text = "Exit";
             // 
-            // toolStripButtonRefresh
-            // 
-            toolStripButtonRefresh.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            toolStripButtonRefresh.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            toolStripButtonRefresh.Image = (Image)resources.GetObject("toolStripButtonRefresh.Image");
-            toolStripButtonRefresh.ImageTransparentColor = Color.Magenta;
-            toolStripButtonRefresh.Name = "toolStripButtonRefresh";
-            toolStripButtonRefresh.Size = new Size(23, 19);
-            toolStripButtonRefresh.Text = "R";
-            // 
             // toolStrip1
             // 
             toolStrip1.Dock = DockStyle.None;
-            toolStrip1.Items.AddRange(new ToolStripItem[] { toolStripDropDownButtonDataSet, toolStripDropDownButtonNNModel, toolStripTextBoxNNPattern, toolStripButtonStop });
-            toolStrip1.Location = new Point(3, 26);
+            toolStrip1.Items.AddRange(new ToolStripItem[] { toolStripDropDownButtonDataSet, toolStripDropDownButtonNNModel, toolStripTextBoxNNPattern, toolStripButtonStart, toolStripButtonStop });
+            toolStrip1.Location = new Point(3, 24);
             toolStrip1.Name = "toolStrip1";
-            toolStrip1.Size = new Size(247, 25);
+            toolStrip1.Size = new Size(282, 25);
             toolStrip1.TabIndex = 1;
             // 
             // toolStripDropDownButtonDataSet
@@ -143,6 +142,15 @@
             toolStripTextBoxNNPattern.Size = new Size(100, 25);
             toolStripTextBoxNNPattern.Text = "[IN]x3x[OUT]";
             // 
+            // toolStripButtonStart
+            // 
+            toolStripButtonStart.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            toolStripButtonStart.Image = (Image)resources.GetObject("toolStripButtonStart.Image");
+            toolStripButtonStart.ImageTransparentColor = Color.Magenta;
+            toolStripButtonStart.Name = "toolStripButtonStart";
+            toolStripButtonStart.Size = new Size(35, 22);
+            toolStripButtonStart.Text = "Start";
+            // 
             // toolStripButtonStop
             // 
             toolStripButtonStop.DisplayStyle = ToolStripItemDisplayStyle.Text;
@@ -157,6 +165,27 @@
             // 
             timer1.Enabled = true;
             // 
+            // statusStrip1
+            // 
+            statusStrip1.Dock = DockStyle.None;
+            statusStrip1.Items.AddRange(new ToolStripItem[] { toolStripStatusLabelIterationStatic, toolStripStatusLabelIterationValue });
+            statusStrip1.Location = new Point(0, 0);
+            statusStrip1.Name = "statusStrip1";
+            statusStrip1.Size = new Size(800, 22);
+            statusStrip1.TabIndex = 0;
+            // 
+            // toolStripStatusLabelIterationStatic
+            // 
+            toolStripStatusLabelIterationStatic.Name = "toolStripStatusLabelIterationStatic";
+            toolStripStatusLabelIterationStatic.Size = new Size(54, 17);
+            toolStripStatusLabelIterationStatic.Text = "Iteration:";
+            // 
+            // toolStripStatusLabelIterationValue
+            // 
+            toolStripStatusLabelIterationValue.Name = "toolStripStatusLabelIterationValue";
+            toolStripStatusLabelIterationValue.Size = new Size(12, 17);
+            toolStripStatusLabelIterationValue.Text = "-";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -166,6 +195,8 @@
             MainMenuStrip = menuStrip1;
             Name = "Form1";
             Text = "Form1";
+            toolStripContainer1.BottomToolStripPanel.ResumeLayout(false);
+            toolStripContainer1.BottomToolStripPanel.PerformLayout();
             toolStripContainer1.ContentPanel.ResumeLayout(false);
             toolStripContainer1.TopToolStripPanel.ResumeLayout(false);
             toolStripContainer1.TopToolStripPanel.PerformLayout();
@@ -175,6 +206,8 @@
             menuStrip1.PerformLayout();
             toolStrip1.ResumeLayout(false);
             toolStrip1.PerformLayout();
+            statusStrip1.ResumeLayout(false);
+            statusStrip1.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -185,12 +218,15 @@
         private ToolStripMenuItem fileToolStripMenuItem;
         private ToolStripMenuItem exitToolStripMenuItem;
         private ToolStrip toolStrip1;
-        private ToolStripButton toolStripButtonRefresh;
         private ToolStripDropDownButton toolStripDropDownButtonDataSet;
         private ToolStripTextBox toolStripTextBoxNNPattern;
         private ChartUserControl chartUserControl;
         private ToolStripDropDownButton toolStripDropDownButtonNNModel;
         private ToolStripButton toolStripButtonStop;
         private System.Windows.Forms.Timer timer1;
+        private ToolStripButton toolStripButtonStart;
+        private StatusStrip statusStrip1;
+        private ToolStripStatusLabel toolStripStatusLabelIterationStatic;
+        private ToolStripStatusLabel toolStripStatusLabelIterationValue;
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NeuralNet.Core.Training;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
@@ -14,7 +15,6 @@ namespace NeuralNet.Data
         public double[][] Outputs { get; }
         public int InputSetLength => Inputs[0].Length;
         public int OutputSetLength => Outputs[0].Length;
-
         public NetworkData(string key, double[][] inputs, double[][] outputs)
         {
             Key = key;

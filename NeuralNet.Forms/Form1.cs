@@ -40,10 +40,12 @@ namespace NeuralNet.Forms
                     if (Runner.IsFinished)
                     {
                         Runner = null;
-                        toolStripButtonRefresh.Enabled = true;
+                        toolStripButtonStart.Enabled = true;
                         toolStripButtonStop.Enabled = false;
                     }
                 }
+
+                toolStripStatusLabelIterationValue.Text = Runner != null ? Runner.CurrentIteration.ToString() : "-";
             };
 
             //Add Networks
@@ -62,9 +64,9 @@ namespace NeuralNet.Forms
                 };
             }
             //Refresh Runs
-            toolStripButtonRefresh.Click += async (sender, args) =>
+            toolStripButtonStart.Click += async (sender, args) =>
             {
-                toolStripButtonRefresh.Enabled = false;
+                toolStripButtonStart.Enabled = false;
                 toolStripButtonStop.Enabled = true;
                 //NetworkData data = NetworkData.InitXORData();
                 var data = NetworkData.GetNetworkData(toolStripDropDownButtonDataSet.Text ?? throw new Exception());

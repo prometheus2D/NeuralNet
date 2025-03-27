@@ -57,6 +57,8 @@ namespace NeuralNet.Tests
             {
                 runner.ProcessEvents();
             }
+
+            Assert.IsTrue(isTestFinished);
         }
     }
 }
