@@ -43,6 +43,43 @@ namespace NeuralNet.Data
 
             return new NetworkData(Key, newInputs.ToArray(), newOutputs.ToArray());
         }
+        public NetworkData ShrinkByOutput(int maxOutputCategoryCount)
+        {
+            var newInputs = new List<double[]>();
+            var newOutputs = new List<double[]>();
+
+            var outputCategories = Outputs.Select(x => GetOutputCategory(x)).Distinct().ToList();
+            var outputCategoryCounts = new int[outputCategories.Count];
+
+            if (outputCategories.Count > 10)
+                throw new NotImplementedException();
+
+            for (int i = 0; i < Outputs.Length; i++)
+            {
+                var currentOutput = Outputs[i];
+                var outputCategoryIndex = outputCategories.IndexOf(GetOutputCategory(currentOutput));
+
+
+                if (outputCategoryCounts[outputCategoryIndex] < maxOutputCategoryCount)
+                {
+                    newInputs.Add(Inputs[i]);
+                    newOutputs.Add(currentOutput);
+                    outputCategoryCounts[outputCategoryIndex]++;
+                }
+            }
+
+            return new NetworkData(Key, newInputs.ToArray(), newOutputs.ToArray());
+
+            string GetOutputCategory(double[] output)
+            {
+                var result = "";
+                for (int i = 0; i < output.Length; i++)
+                {
+                    result += output[i].ToString();
+                }
+                return result;
+            }
+        }
 
         public NetworkData(string key, string filePath)
         {
@@ -84,7 +121,13 @@ namespace NeuralNet.Data
             new Dictionary<string, Func<NetworkData>>()
             {
                 { "XOR", () => InitXORData() },
-                { "MNIST", () => InitMNISTData() }
+                { "MNIST", () => InitMNISTData() },
+                { "MNIST-small", () => InitMNISTData("MNIST-small")
+                    .ReduceByOutput(output =>
+                    {
+                        return output[0] == 1 || output[1] == 1;// || output[2] == 1 || output[3] == 1;
+                    })
+                    .ShrinkByOutput(200)}
             };
         public static NetworkData InitXORData() => new NetworkData("XOR",
             new double[][]
@@ -103,6 +146,6 @@ namespace NeuralNet.Data
             }
         );
 
-        public static NetworkData InitMNISTData() => new NetworkData("MNIST", @"D:\Data\mnist_train.csv");
+        public static NetworkData InitMNISTData(string keyOverride = null) => new NetworkData(keyOverride ?? "MNIST", @"D:\Data\mnist_train.csv");
     }
 }

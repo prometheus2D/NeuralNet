@@ -9,6 +9,7 @@ using Encog.Neural.Networks.Training.Propagation.Back;
 using NeuralNet.Core;
 using NeuralNet.Core.Training;
 using NeuralNet.Data;
+using NeuralNet.Core.Global;
 
 namespace NeuralNet.Networks.Encog.EncogBP
 {
@@ -22,7 +23,7 @@ namespace NeuralNet.Networks.Encog.EncogBP
             Network = network ?? throw new ArgumentNullException(nameof(network));
         }
 
-        public override TrainingResult Train(NetworkData data, TrainingParameters parameters, Action<TrainingProgress> progressCallback)
+        public override TrainingResult Train(NetworkInstanceRunner runner, NetworkData data, TrainingParameters parameters, Action<TrainingProgress> progressCallback)
         {
             if (data == null) throw new ArgumentNullException(nameof(data));
             if (parameters == null) throw new ArgumentNullException(nameof(parameters));

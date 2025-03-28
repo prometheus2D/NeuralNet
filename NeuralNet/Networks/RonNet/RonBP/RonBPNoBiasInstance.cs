@@ -8,6 +8,7 @@ using Encog.Neural.Networks.Training.Propagation.Back;
 using System.Diagnostics;
 using NeuralNet.Core.Training;
 using NeuralNet.Data;
+using NeuralNet.Core.Global;
 
 namespace NeuralNet.Networks.RonNet.RonBP
 {
@@ -231,7 +232,7 @@ namespace NeuralNet.Networks.RonNet.RonBP
 
         //Interface Functions
 
-        public override TrainingResult Train(NetworkData data, TrainingParameters parameters, Action<TrainingProgress> progressCallback)
+        public override TrainingResult Train(NetworkInstanceRunner runner, NetworkData data, TrainingParameters parameters, Action<TrainingProgress> progressCallback)
         {
             if (data == null) throw new ArgumentNullException(nameof(data));
             if (parameters == null) throw new ArgumentNullException(nameof(parameters));

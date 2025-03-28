@@ -18,7 +18,7 @@ namespace NeuralNet.Core
             Guid = Guid.NewGuid();
         }
 
-        public abstract TrainingResult Train(NetworkData data, TrainingParameters parameters, Action<TrainingProgress> progressCallback);
+        public abstract TrainingResult Train(NetworkInstanceRunner runner, NetworkData data, TrainingParameters parameters, Action<TrainingProgress> progressCallback);
 
         public abstract double[][] Test(NetworkData data);
     }

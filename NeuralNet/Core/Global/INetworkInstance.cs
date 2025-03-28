@@ -8,7 +8,7 @@ namespace NeuralNet.Core.Global
     {
         public Guid Guid { get; set; }
 
-        TrainingResult Train(NetworkData data, TrainingParameters parameters, Action<TrainingProgress> progressCallback);
+        TrainingResult Train(NetworkInstanceRunner runner, NetworkData data, TrainingParameters parameters, Action<TrainingProgress> progressCallback);
 
         double[][] Test(NetworkData data);
     }

@@ -2,6 +2,7 @@
 using Accord.Neuro;
 using Accord.Neuro.Learning;
 using NeuralNet.Core;
+using NeuralNet.Core.Global;
 using NeuralNet.Core.Training;
 using NeuralNet.Data;
 
@@ -20,7 +21,7 @@ namespace NeuralNet.Networks.Accord.AccordBP
             Network = network ?? throw new ArgumentNullException(nameof(network));
         }
 
-        public override TrainingResult Train(NetworkData data, TrainingParameters parameters, Action<TrainingProgress> progressCallback)
+        public override TrainingResult Train(NetworkInstanceRunner runner, NetworkData data, TrainingParameters parameters, Action<TrainingProgress> progressCallback)
         {
             if (data == null) throw new ArgumentNullException(nameof(data));
             if (parameters == null) throw new ArgumentNullException(nameof(parameters));

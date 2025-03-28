@@ -27,6 +27,7 @@ namespace NeuralNet.Core.Global
 
             var result = networkFactory.CreateNetwork(network[0], network[1], network[2]);
 
+
             return result;
         }
     }

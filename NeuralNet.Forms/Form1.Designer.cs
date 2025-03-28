@@ -31,6 +31,10 @@
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             toolStripContainer1 = new ToolStripContainer();
+            statusStrip1 = new StatusStrip();
+            toolStripStatusLabelIterationStatic = new ToolStripStatusLabel();
+            toolStripStatusLabelIterationValue = new ToolStripStatusLabel();
+            toolStripStatusLabelRunTime = new ToolStripStatusLabel();
             chartUserControl = new ChartUserControl();
             menuStrip1 = new MenuStrip();
             fileToolStripMenuItem = new ToolStripMenuItem();
@@ -39,19 +43,17 @@
             toolStripDropDownButtonDataSet = new ToolStripDropDownButton();
             toolStripDropDownButtonNNModel = new ToolStripDropDownButton();
             toolStripTextBoxNNPattern = new ToolStripTextBox();
+            toolStripButtonMultiThreaded = new ToolStripButton();
             toolStripButtonStart = new ToolStripButton();
             toolStripButtonStop = new ToolStripButton();
             timer1 = new System.Windows.Forms.Timer(components);
-            statusStrip1 = new StatusStrip();
-            toolStripStatusLabelIterationStatic = new ToolStripStatusLabel();
-            toolStripStatusLabelIterationValue = new ToolStripStatusLabel();
             toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             toolStripContainer1.ContentPanel.SuspendLayout();
             toolStripContainer1.TopToolStripPanel.SuspendLayout();
             toolStripContainer1.SuspendLayout();
+            statusStrip1.SuspendLayout();
             menuStrip1.SuspendLayout();
             toolStrip1.SuspendLayout();
-            statusStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // toolStripContainer1
@@ -76,6 +78,34 @@
             // 
             toolStripContainer1.TopToolStripPanel.Controls.Add(menuStrip1);
             toolStripContainer1.TopToolStripPanel.Controls.Add(toolStrip1);
+            // 
+            // statusStrip1
+            // 
+            statusStrip1.Dock = DockStyle.None;
+            statusStrip1.Items.AddRange(new ToolStripItem[] { toolStripStatusLabelIterationStatic, toolStripStatusLabelIterationValue, toolStripStatusLabelRunTime });
+            statusStrip1.Location = new Point(0, 0);
+            statusStrip1.Name = "statusStrip1";
+            statusStrip1.Size = new Size(800, 22);
+            statusStrip1.TabIndex = 0;
+            // 
+            // toolStripStatusLabelIterationStatic
+            // 
+            toolStripStatusLabelIterationStatic.Name = "toolStripStatusLabelIterationStatic";
+            toolStripStatusLabelIterationStatic.Size = new Size(54, 17);
+            toolStripStatusLabelIterationStatic.Text = "Iteration:";
+            // 
+            // toolStripStatusLabelIterationValue
+            // 
+            toolStripStatusLabelIterationValue.Name = "toolStripStatusLabelIterationValue";
+            toolStripStatusLabelIterationValue.Size = new Size(12, 17);
+            toolStripStatusLabelIterationValue.Text = "-";
+            // 
+            // toolStripStatusLabelRunTime
+            // 
+            toolStripStatusLabelRunTime.Name = "toolStripStatusLabelRunTime";
+            toolStripStatusLabelRunTime.RightToLeft = RightToLeft.No;
+            toolStripStatusLabelRunTime.Size = new Size(22, 17);
+            toolStripStatusLabelRunTime.Text = "---";
             // 
             // chartUserControl
             // 
@@ -111,10 +141,10 @@
             // toolStrip1
             // 
             toolStrip1.Dock = DockStyle.None;
-            toolStrip1.Items.AddRange(new ToolStripItem[] { toolStripDropDownButtonDataSet, toolStripDropDownButtonNNModel, toolStripTextBoxNNPattern, toolStripButtonStart, toolStripButtonStop });
+            toolStrip1.Items.AddRange(new ToolStripItem[] { toolStripDropDownButtonDataSet, toolStripDropDownButtonNNModel, toolStripTextBoxNNPattern, toolStripButtonMultiThreaded, toolStripButtonStart, toolStripButtonStop });
             toolStrip1.Location = new Point(3, 24);
             toolStrip1.Name = "toolStrip1";
-            toolStrip1.Size = new Size(282, 25);
+            toolStrip1.Size = new Size(310, 25);
             toolStrip1.TabIndex = 1;
             // 
             // toolStripDropDownButtonDataSet
@@ -142,6 +172,18 @@
             toolStripTextBoxNNPattern.Size = new Size(100, 25);
             toolStripTextBoxNNPattern.Text = "[IN]x3x[OUT]";
             // 
+            // toolStripButtonMultiThreaded
+            // 
+            toolStripButtonMultiThreaded.Checked = true;
+            toolStripButtonMultiThreaded.CheckOnClick = true;
+            toolStripButtonMultiThreaded.CheckState = CheckState.Checked;
+            toolStripButtonMultiThreaded.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            toolStripButtonMultiThreaded.Image = (Image)resources.GetObject("toolStripButtonMultiThreaded.Image");
+            toolStripButtonMultiThreaded.ImageTransparentColor = Color.Magenta;
+            toolStripButtonMultiThreaded.Name = "toolStripButtonMultiThreaded";
+            toolStripButtonMultiThreaded.Size = new Size(28, 22);
+            toolStripButtonMultiThreaded.Text = "MT";
+            // 
             // toolStripButtonStart
             // 
             toolStripButtonStart.DisplayStyle = ToolStripItemDisplayStyle.Text;
@@ -165,27 +207,6 @@
             // 
             timer1.Enabled = true;
             // 
-            // statusStrip1
-            // 
-            statusStrip1.Dock = DockStyle.None;
-            statusStrip1.Items.AddRange(new ToolStripItem[] { toolStripStatusLabelIterationStatic, toolStripStatusLabelIterationValue });
-            statusStrip1.Location = new Point(0, 0);
-            statusStrip1.Name = "statusStrip1";
-            statusStrip1.Size = new Size(800, 22);
-            statusStrip1.TabIndex = 0;
-            // 
-            // toolStripStatusLabelIterationStatic
-            // 
-            toolStripStatusLabelIterationStatic.Name = "toolStripStatusLabelIterationStatic";
-            toolStripStatusLabelIterationStatic.Size = new Size(54, 17);
-            toolStripStatusLabelIterationStatic.Text = "Iteration:";
-            // 
-            // toolStripStatusLabelIterationValue
-            // 
-            toolStripStatusLabelIterationValue.Name = "toolStripStatusLabelIterationValue";
-            toolStripStatusLabelIterationValue.Size = new Size(12, 17);
-            toolStripStatusLabelIterationValue.Text = "-";
-            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -202,12 +223,12 @@
             toolStripContainer1.TopToolStripPanel.PerformLayout();
             toolStripContainer1.ResumeLayout(false);
             toolStripContainer1.PerformLayout();
+            statusStrip1.ResumeLayout(false);
+            statusStrip1.PerformLayout();
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
             toolStrip1.ResumeLayout(false);
             toolStrip1.PerformLayout();
-            statusStrip1.ResumeLayout(false);
-            statusStrip1.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -228,5 +249,7 @@
         private StatusStrip statusStrip1;
         private ToolStripStatusLabel toolStripStatusLabelIterationStatic;
         private ToolStripStatusLabel toolStripStatusLabelIterationValue;
+        private ToolStripButton toolStripButtonMultiThreaded;
+        private ToolStripStatusLabel toolStripStatusLabelRunTime;
     }
 }

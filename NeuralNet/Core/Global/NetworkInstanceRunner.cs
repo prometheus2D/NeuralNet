@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Text;
 using Accord.Statistics.Running;
+using Encog.ML.Train.Strategy.End;
 using NeuralNet.Core.Training;
 using NeuralNet.Data;
 
@@ -15,6 +16,10 @@ namespace NeuralNet.Core.Global
         public bool IsFinished { get; private set; } = false;
         public bool IsAborted { get; private set; } = false;
         public int CurrentIteration { get; private set; } = -1;
+        public bool MultiThreaded { get; set; } = false;
+        public DateTime? StartTime { get; set; } = null;
+        public DateTime? EndTime { get; set; } = null;
+        public TimeSpan RunTime => StartTime == null ? TimeSpan.Zero : (EndTime ?? DateTime.Now) - StartTime.Value;
 
         public delegate void TrainIterationEventHandler(int index, double value);
         public event TrainIterationEventHandler TrainIterationEvent;
@@ -63,12 +68,20 @@ namespace NeuralNet.Core.Global
         }
 
         public void Abort() => IsAborted = true;
-        public Task Run() => Task.Run(_Run);
+        public Task Run()
+        {
+            if (MultiThreaded)
+                return Task.Run(_Run);
+
+            _Run();
+            return null;
+        }
         private void _Run()
         {
+            StartTime = DateTime.Now;
             IsFinished = false;
 
-            TrainingResult result = Instance.Train(Data, Parameters, progress =>
+            TrainingResult result = Instance.Train(this, Data, Parameters, progress =>
             {
                 CurrentIteration = progress.Iteration;
                 if (Parameters.Verbose && (Parameters.VerboseModulus <= 0 || progress.Iteration % Parameters.VerboseModulus == 0)
@@ -78,6 +91,8 @@ namespace NeuralNet.Core.Global
                 }
                 QueueTrainIterationEvent(progress.Iteration, progress.Error);
             });
+
+            EndTime = DateTime.Now;
 
             QueueLogEvent($"\nTraining complete after {result.IterationCount} iterations. Final error: {result.FinalError:F4}");
             QueueLogEvent($"Total training time: {result.TrainingTime.TotalSeconds:F2} seconds\n");

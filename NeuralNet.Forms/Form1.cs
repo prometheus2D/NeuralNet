@@ -15,19 +15,18 @@ namespace NeuralNet.Forms
         {
             //UI
             InitializeComponent();
+            toolStripStatusLabelRunTime.Alignment = ToolStripItemAlignment.Right;
             exitToolStripMenuItem.Click += (sender, args) => Application.Exit();
 
             //Add DataSets
-            var dataSourceButtons = new List<ToolStripItem>()
-            {
-                toolStripDropDownButtonDataSet.DropDownItems.Add("XOR", null, (sender, args) => toolStripDropDownButtonDataSet.Text = "XOR"),
-                toolStripDropDownButtonDataSet.DropDownItems.Add("MNIST", null, (sender, args) => toolStripDropDownButtonDataSet.Text = "MNIST")
-            };
+            var dataSourceButtons = NetworkData.NetworkDataFactoryDictionary
+                .Select(x => toolStripDropDownButtonDataSet.DropDownItems.Add(x.Key, null, (sender, args) => toolStripDropDownButtonDataSet.Text = x.Key))
+                .ToList();
 
             //Time Control
             toolStripButtonStop.Click += (sender, args) =>
             {
-
+                Runner?.Abort();
             };
 
             //Event Timer
@@ -45,7 +44,11 @@ namespace NeuralNet.Forms
                     }
                 }
 
-                toolStripStatusLabelIterationValue.Text = Runner != null ? Runner.CurrentIteration.ToString() : "-";
+                if (Runner != null)
+                {
+                    toolStripStatusLabelIterationValue.Text = Runner != null ? Runner.CurrentIteration.ToString() : "-";
+                    toolStripStatusLabelRunTime.Text = Runner != null ? Runner.RunTime.ToString() : "---";
+                }
             };
 
             //Add Networks
@@ -70,16 +73,20 @@ namespace NeuralNet.Forms
                 toolStripButtonStop.Enabled = true;
                 //NetworkData data = NetworkData.InitXORData();
                 var data = NetworkData.GetNetworkData(toolStripDropDownButtonDataSet.Text ?? throw new Exception());
-                var instance = GlobalFactory.CreateNetworkInstance(ModelStringKey, "BackProp", new int[] { data.InputSetLength, 3, data.OutputSetLength });
+                var instance = GlobalFactory.CreateNetworkInstance(ModelStringKey, "BackProp", new int[] { data.InputSetLength, 18, 12, data.OutputSetLength });
                 Runner = new NetworkInstanceRunner(instance, data, null,
                     null,//line => Console.WriteLine(line),
                     (index, value) =>
                         chartUserControl.AddSeriesDataPoint(instance.Guid.ToString(), index, value))
                 {
-                    Parameters = TrainingParameters.Default
+                    Parameters = TrainingParameters.Default,
+                    MultiThreaded = toolStripButtonMultiThreaded.Checked
                 };
 
-                await Runner.Run();
+                if (Runner.MultiThreaded)
+                    await Runner.Run();
+                else 
+                    Runner.Run();
             };
             toolStripButtonStop.Click += (sender, args) => Runner.Abort();
 

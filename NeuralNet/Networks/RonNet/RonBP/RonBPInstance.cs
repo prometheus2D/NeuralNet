@@ -238,7 +238,7 @@ namespace NeuralNet.Networks.RonNet.RonBP
 
         //Interface Functions
 
-        public override TrainingResult Train(NetworkData data, TrainingParameters parameters, Action<TrainingProgress> progressCallback)
+        public override TrainingResult Train(NetworkInstanceRunner runner, NetworkData data, TrainingParameters parameters, Action<TrainingProgress> progressCallback)
         {
             if (data == null) throw new ArgumentNullException(nameof(data));
             if (parameters == null) throw new ArgumentNullException(nameof(parameters));
@@ -252,6 +252,9 @@ namespace NeuralNet.Networks.RonNet.RonBP
 
             while (error > parameters.ErrorThreshold && iteration < parameters.MaxIterations)
             {
+                if (runner.IsAborted)
+                    break;
+
                 error = 0;
                 foreach (var singleCase in trainingCases)
                 {
@@ -260,6 +263,9 @@ namespace NeuralNet.Networks.RonNet.RonBP
                     BackPropagate((float)parameters.LearningRate); // Update weights
 
                     error += OutputErrors.Select(x => Math.Abs(x)).Sum();
+
+                    if (runner.IsAborted)
+                        break;
                 }
 
                 error /= trainingCases.Length; // Get average error
